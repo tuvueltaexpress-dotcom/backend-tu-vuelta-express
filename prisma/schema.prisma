@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model UserAdmin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model StoresCategories {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stores    Stores[]
+}
+
+model Stores {
+  id          Int              @id @default(autoincrement())
+  name        String
+  image       String
+  coverImage  String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  categoryId  Int
+  category    StoresCategories @relation(fields: [categoryId], references: [id])
+  products    Product[]
+  productsCategories ProductsCategories[]
+  deliveryOptions DeliveryOptions[]
+}
+
+model ProductsCategories {
+  id        Int      @id @default(autoincrement())
+  name      String
+  storeId   Int
+  store     Stores   @relation(fields: [storeId], references: [id])
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          Int               @id @default(autoincrement())
+  title       String
+  price       Float
+  images      String[]
+  description String
+  storeId     Int
+  store       Stores           @relation(fields: [storeId], references: [id])
+  categoryId  Int
+  category    ProductsCategories @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model DeliveryOptions {
+  id        Int      @id @default(autoincrement())
+  name      String
+  fee       Float
+  storeId   Int
+  store     Stores   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
