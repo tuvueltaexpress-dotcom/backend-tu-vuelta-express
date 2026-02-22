@@ -7,7 +7,9 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post('register')
-  register(@Body() createAdminDto: CreateAdminDto) {
+  async register(
+    @Body() createAdminDto: CreateAdminDto,
+  ): Promise<{ message: string }> {
     return this.adminService.register(
       createAdminDto.username,
       createAdminDto.email,
