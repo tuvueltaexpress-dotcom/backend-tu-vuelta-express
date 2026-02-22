@@ -184,10 +184,9 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Crea el modulo admin
 - [x] Crea el servicio de registro de administrador
 - [x] Crea el servicio de login de administrador
-- [ ] Crea el servicio de logout de administrador
-- [ ] Crea el servicio para el dashboard inicial
+- [x] Crear Guard de autenticación JWT
+- [x] Crea el servicio para el dashboard inicial (protegido con auth)
 - [ ] Implementar validación con class-validator (Refinamiento)
-- [ ] Agregar Guards de autenticación (Refinamiento)
 - [ ] Agregar Exception Filters (Refinamiento)
 - [ ] Agregar Logging (Refinamiento)
 - [ ] Tests unitarios (Refinamiento)

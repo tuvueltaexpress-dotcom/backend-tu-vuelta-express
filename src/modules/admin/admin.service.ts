@@ -97,7 +97,11 @@ export class AdminService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const payload = { sub: admin.id, username: admin.username };
+    const payload = {
+      sub: admin.id,
+      username: admin.username,
+      role: admin.role,
+    };
 
     return {
       token: this.jwtService.sign(payload),
@@ -105,7 +109,20 @@ export class AdminService {
         id: admin.id,
         username: admin.username,
         email: admin.email,
+        role: admin.role,
       },
+    };
+  }
+
+  async getDashboard() {
+    const [storesCount, productsCount] = await Promise.all([
+      this.prisma.stores.count(),
+      this.prisma.product.count(),
+    ]);
+
+    return {
+      storesCount,
+      productsCount,
     };
   }
 }
