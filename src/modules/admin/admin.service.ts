@@ -2,13 +2,18 @@ import {
   Injectable,
   ConflictException,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   private readonly usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
   private readonly emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,5 +80,32 @@ export class AdminService {
     });
 
     return { message: 'OK' };
+  }
+
+  async login(username: string, password: string) {
+    const admin = await this.prisma.userAdmin.findUnique({
+      where: { username },
+    });
+
+    if (!admin) {
+      throw new UnauthorizedException('Credenciales inválidas');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Credenciales inválidas');
+    }
+
+    const payload = { sub: admin.id, username: admin.username };
+
+    return {
+      token: this.jwtService.sign(payload),
+      admin: {
+        id: admin.id,
+        username: admin.username,
+        email: admin.email,
+      },
+    };
   }
 }
