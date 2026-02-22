@@ -179,10 +179,10 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Migrar modelo Product que sera en este proyecto Products
 - [x] Migrar modelo DeliveryOptions
 
-### Fase 3: Crear modulo de admin
+### Fase 3: Modulo Admin (En Progreso)
 
-- [ ] Crea el modulo admin
-- [ ] Crea el servicio de registro de administrador
+- [x] Crea el modulo admin
+- [x] Crea el servicio de registro de administrador
 - [ ] Crea el servicio de login de administrador
 - [ ] Crea el servicio para el dashboard inicial
 - [ ] Implementar validación con class-validator (Refinamiento)
