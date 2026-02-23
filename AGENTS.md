@@ -164,39 +164,16 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 
 ## To-Do List
 
-### Fase 1: Setup y Auth (Completado)
-
-- [x] Inicializar proyecto NestJS
-- [x] Configurar Prisma
-- [x] Crear modelo UserAdmin con createdAt
-- [x] Configurar autenticación JWT
-
-### Fase 2: Módulos de Datos (Completado)
-
-- [x] Migrar modelo Aliado que sera en este proyecto Stores
-- [x] Crear modelo StoresCategories
-- [x] Migrar modelo Category que ahora sera ProductsCategories
-- [x] Migrar modelo Product que sera en este proyecto Products
-- [x] Migrar modelo DeliveryOptions
-
-### Fase 3: Modulo Admin (Completado)
-
-- [x] Crea el modulo admin
-- [x] Crea el servicio de registro de administrador
-- [x] Crea el servicio de login de administrador
-- [x] Crear Guard de autenticación JWT
-- [x] Crea el servicio para el dashboard inicial (protegido con auth)
-- [x] Implementar validación con class-validator (Refinamiento)
-- [x] Agregar Exception Filters (Refinamiento)
-- [x] Agregar Logging (Refinamiento)
-- [x] Tests unitarios (Refinamiento)
+- [x] Crear modulo de StoresCategories
+- [x] Crear servicio para crear categoria de tienda (SOLO ADMIN)
+- [x] Crear servicio para modificar categoria de tienda (SOLO ADMIN)
+- [x] Crear servicio para eliminar categoria de tienda (SOLO ADMIN)
+- [x] Crear servicio para obtener todas las categorias de tiendas
+- [x] Crear servicio para obtener una categoria de tienda
+- [ ] Tests unitarios (Refinamiento)
 
 ### Refinamientos por cada modulo a trabajar
 
-- [ ] Implementar validación con class-validator
-- [ ] Agregar Guards de autenticación
-- [ ] Agregar Exception Filters
-- [ ] Agregar Logging
 - [ ] Tests unitarios
 
 ---
