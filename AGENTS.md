@@ -170,7 +170,7 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Crear servicio para eliminar categoria de tienda (SOLO ADMIN)
 - [x] Crear servicio para obtener todas las categorias de tiendas
 - [x] Crear servicio para obtener una categoria de tienda
-- [ ] Tests unitarios (Refinamiento)
+- [x] Tests unitarios (Refinamiento)
 
 ### Refinamientos por cada modulo a trabajar
 
