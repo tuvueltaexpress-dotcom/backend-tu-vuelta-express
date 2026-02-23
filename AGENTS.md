@@ -189,7 +189,7 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Implementar validación con class-validator (Refinamiento)
 - [x] Agregar Exception Filters (Refinamiento)
 - [x] Agregar Logging (Refinamiento)
-- [ ] Tests unitarios (Refinamiento)
+- [x] Tests unitarios (Refinamiento)
 
 ### Refinamientos por cada modulo a trabajar
 
