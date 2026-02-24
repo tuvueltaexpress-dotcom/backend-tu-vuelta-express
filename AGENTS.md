@@ -164,16 +164,70 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 
 ## To-Do List
 
+### Fase 1: Setup y Auth (Completado ✓)
+
+- [x] Inicializar proyecto NestJS
+- [x] Configurar Prisma
+- [x] Crear modelo UserAdmin con createdAt
+- [x] Configurar autenticación JWT
+
+### Fase 2: Modelos de Datos (Completado ✓)
+
+- [x] Migrar modelo Aliado → Stores
+- [x] Crear modelo StoresCategories
+- [x] Migrar modelo Category → ProductsCategories
+- [x] Migrar modelo Product → Products
+- [x] Migrar modelo DeliveryOptions
+
+### Fase 3: Modulo Admin (Completado ✓)
+
+- [x] Crear modulo admin
+- [x] Crear servicio de registro de administrador
+- [x] Crear servicio de login de administrador
+- [x] Crear Guard de autenticación JWT
+- [x] Crear servicio para el dashboard inicial (protegido con auth)
+- [x] Implementar validación con class-validator
+- [x] Agregar Exception Filters
+- [x] Agregar LoggingInterceptor
+- [x] Tests unitarios
+
+### StoresCategories (Completado ✓)
+
 - [x] Crear modulo de StoresCategories
 - [x] Crear servicio para crear categoria de tienda (SOLO ADMIN)
 - [x] Crear servicio para modificar categoria de tienda (SOLO ADMIN)
 - [x] Crear servicio para eliminar categoria de tienda (SOLO ADMIN)
 - [x] Crear servicio para obtener todas las categorias de tiendas
 - [x] Crear servicio para obtener una categoria de tienda
-- [x] Tests unitarios (Refinamiento)
+- [x] Tests unitarios
 
-### Refinamientos por cada modulo a trabajar
+### Stores (Tiendas)
 
+- [x] Crear modulo de Stores
+- [x] Crear servicio para crear tienda (SOLO ADMIN)
+- [x] Crear servicio para modificar tienda (SOLO ADMIN)
+- [x] Crear servicio para eliminar tienda (SOLO ADMIN)
+- [x] Crear servicio para obtener todas las tiendas
+- [x] Crear servicio para obtener una tienda por ID
+- [x] Tests unitarios
+- [x] Integración con Cloudinary (imágenes en base64)
+
+### ProductsCategories (Categorías de Productos)
+
+- [ ] Crear modulo de ProductsCategories
+- [ ] Crear servicio para crear categoría de producto (SOLO ADMIN)
+- [ ] Crear servicio para modificar categoría de producto (SOLO ADMIN)
+- [ ] Crear servicio para eliminar categoría de producto (SOLO ADMIN)
+- [ ] Crear servicio para obtener todas las categorías de productos
+- [ ] Tests unitarios
+
+### DeliveryOptions (Opciones de Delivery)
+
+- [ ] Crear modulo de DeliveryOptions
+- [ ] Crear servicio para crear opción de delivery (SOLO ADMIN)
+- [ ] Crear servicio para modificar opción de delivery (SOLO ADMIN)
+- [ ] Crear servicio para eliminar opción de delivery (SOLO ADMIN)
+- [ ] Crear servicio para obtener las opciones de delivery por StoreId
 - [ ] Tests unitarios
 
 ---

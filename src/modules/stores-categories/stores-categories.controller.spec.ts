@@ -33,7 +33,9 @@ describe('StoresCategoriesController', () => {
       .useValue(mockJwtAuthGuard)
       .compile();
 
-    controller = module.get<StoresCategoriesController>(StoresCategoriesController);
+    controller = module.get<StoresCategoriesController>(
+      StoresCategoriesController,
+    );
     service = module.get<StoresCategoriesService>(StoresCategoriesService);
   });
 

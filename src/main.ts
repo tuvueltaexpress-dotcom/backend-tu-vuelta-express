@@ -6,7 +6,14 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: true,
+  });
+
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .use(require('express').json({ limit: '10mb' }));
 
   app.useGlobalPipes(
     new ValidationPipe({
