@@ -212,23 +212,23 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Tests unitarios
 - [x] Integración con Cloudinary (imágenes en base64)
 
-### ProductsCategories (Categorías de Productos)
+### ProductsCategories (Categorías de Productos) (Completado ✓)
 
-- [ ] Crear modulo de ProductsCategories
-- [ ] Crear servicio para crear categoría de producto (SOLO ADMIN)
-- [ ] Crear servicio para modificar categoría de producto (SOLO ADMIN)
-- [ ] Crear servicio para eliminar categoría de producto (SOLO ADMIN)
-- [ ] Crear servicio para obtener todas las categorías de productos
-- [ ] Tests unitarios
+- [x] Crear modulo de ProductsCategories
+- [x] Crear servicio para crear categoría de producto (SOLO ADMIN)
+- [x] Crear servicio para modificar categoría de producto (SOLO ADMIN)
+- [x] Crear servicio para eliminar categoría de producto (SOLO ADMIN)
+- [x] Crear servicio para obtener todas las categorías de productos
+- [x] Tests unitarios
 
-### DeliveryOptions (Opciones de Delivery)
+### DeliveryOptions (Opciones de Delivery) (Completado ✓)
 
-- [ ] Crear modulo de DeliveryOptions
-- [ ] Crear servicio para crear opción de delivery (SOLO ADMIN)
-- [ ] Crear servicio para modificar opción de delivery (SOLO ADMIN)
-- [ ] Crear servicio para eliminar opción de delivery (SOLO ADMIN)
-- [ ] Crear servicio para obtener las opciones de delivery por StoreId
-- [ ] Tests unitarios
+- [x] Crear modulo de DeliveryOptions
+- [x] Crear servicio para crear opción de delivery (SOLO ADMIN)
+- [x] Crear servicio para modificar opción de delivery (SOLO ADMIN)
+- [x] Crear servicio para eliminar opción de delivery (SOLO ADMIN)
+- [x] Crear servicio para obtener las opciones de delivery por StoreId
+- [x] Tests unitarios
 
 ---
 

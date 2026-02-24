@@ -353,6 +353,320 @@ Authorization: Bearer <token_jwt>
 
 ---
 
+## Categorías de Productos (ProductsCategories)
+
+### Crear Categoría de Producto
+
+```http
+POST /products-categories
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Hamburguesas",
+  "storeId": 1
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Hamburguesas",
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+### Obtener Todas las Categorías de Productos
+
+```http
+GET /products-categories
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Hamburguesas",
+    "storeId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "products": [],
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Categorías por Tienda
+
+```http
+GET /products-categories/store/:storeId
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Hamburguesas",
+    "storeId": 1,
+    "products": [],
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Categoría por ID
+
+```http
+GET /products-categories/:id
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Hamburguesas",
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "products": [],
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+**Error (404):**
+
+```json
+{
+  "statusCode": 404,
+  "message": "Categoría de producto no encontrada",
+  "timestamp": "2026-02-22T12:00:00.000Z"
+}
+```
+
+### Actualizar Categoría de Producto
+
+```http
+PUT /products-categories/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Hamburguesas Gourmet"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Hamburguesas Gourmet",
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:30:00.000Z"
+}
+```
+
+### Eliminar Categoría de Producto
+
+```http
+DELETE /products-categories/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Categoría de producto eliminada correctamente"
+}
+```
+
+---
+
+## Opciones de Delivery (DeliveryOptions)
+
+### Crear Opción de Delivery
+
+```http
+POST /delivery-options
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Delivery Normal",
+  "fee": 5.00,
+  "storeId": 1
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Delivery Normal",
+  "fee": 5.0,
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+### Obtener Todas las Opciones de Delivery
+
+```http
+GET /delivery-options
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Delivery Normal",
+    "fee": 5.0,
+    "storeId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Opciones de Delivery por Tienda
+
+```http
+GET /delivery-options/store/:storeId
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Delivery Normal",
+    "fee": 5.0,
+    "storeId": 1,
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Opción de Delivery por ID
+
+```http
+GET /delivery-options/:id
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Delivery Normal",
+  "fee": 5.0,
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+**Error (404):**
+
+```json
+{
+  "statusCode": 404,
+  "message": "Opción de delivery no encontrada",
+  "timestamp": "2026-02-22T12:00:00.000Z"
+}
+```
+
+### Actualizar Opción de Delivery
+
+```http
+PUT /delivery-options/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Delivery Express",
+  "fee": 10.00
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Delivery Express",
+  "fee": 10.0,
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:30:00.000Z"
+}
+```
+
+### Eliminar Opción de Delivery
+
+```http
+DELETE /delivery-options/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Opción de delivery eliminada correctamente"
+}
+```
+
+---
+
 ## Códigos de Error
 
 | Código | Descripción                                          |
