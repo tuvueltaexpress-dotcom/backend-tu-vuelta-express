@@ -48,11 +48,13 @@ export class StoresService {
     return store;
   }
 
-  async findAll(page: number = 1, limit: number = 20) {
+  async findAll(page: number = 1, limit: number = 20, categoryId?: number) {
     const skip = (page - 1) * limit;
+    const where = categoryId ? { categoryId } : {};
 
     const [stores, total] = await Promise.all([
       this.prisma.stores.findMany({
+        where,
         include: {
           category: true,
         },
@@ -62,7 +64,7 @@ export class StoresService {
         skip,
         take: limit,
       }),
-      this.prisma.stores.count(),
+      this.prisma.stores.count({ where }),
     ]);
 
     return {

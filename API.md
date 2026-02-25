@@ -256,6 +256,7 @@ GET /stores
 
 - `page` (opcional): Número de página (por defecto: 1)
 - `limit` (opcional): Resultados por página (por defecto: 20)
+- `categoryId` (opcional): Filtrar por categoría de tienda
 
 **Respuesta:**
 
