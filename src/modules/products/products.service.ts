@@ -57,19 +57,35 @@ export class ProductsService {
     return product;
   }
 
-  async findAll(storeId?: number) {
+  async findAll(storeId?: number, page: number = 1, limit: number = 20) {
     const where = storeId ? { storeId } : {};
+    const skip = (page - 1) * limit;
 
-    return this.prisma.product.findMany({
-      where,
-      include: {
-        store: true,
-        category: true,
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        include: {
+          store: true,
+          category: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.product.count({ where }),
+    ]);
+
+    return {
+      data: products,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
   async findOne(id: number) {
@@ -88,7 +104,7 @@ export class ProductsService {
     return product;
   }
 
-  async findByStore(storeId: number) {
+  async findByStore(storeId: number, page: number = 1, limit: number = 20) {
     const existingStore = await this.prisma.stores.findUnique({
       where: { id: storeId },
     });
@@ -97,16 +113,33 @@ export class ProductsService {
       throw new NotFoundException('Tienda no encontrada');
     }
 
-    return this.prisma.product.findMany({
-      where: { storeId },
-      include: {
-        store: true,
-        category: true,
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where: { storeId },
+        include: {
+          store: true,
+          category: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.product.count({ where: { storeId } }),
+    ]);
+
+    return {
+      data: products,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
   async update(

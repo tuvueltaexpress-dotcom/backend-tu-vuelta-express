@@ -48,15 +48,32 @@ export class StoresService {
     return store;
   }
 
-  async findAll() {
-    return this.prisma.stores.findMany({
-      include: {
-        category: true,
+  async findAll(page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const [stores, total] = await Promise.all([
+      this.prisma.stores.findMany({
+        include: {
+          category: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.stores.count(),
+    ]);
+
+    return {
+      data: stores,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
   async findOne(id: number) {

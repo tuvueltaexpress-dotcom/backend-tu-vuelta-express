@@ -109,18 +109,31 @@ Content-Type: application/json
 GET /stores-categories
 ```
 
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
 **Respuesta:**
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Restaurantes",
-    "createdAt": "2026-02-22T12:00:00.000Z",
-    "updatedAt": "2026-02-22T12:00:00.000Z",
-    "stores": []
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Restaurantes",
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z",
+      "stores": []
+    }
+  ],
+  "pagination": {
+    "total": 3,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
   }
-]
+}
 ```
 
 ### Obtener Categoría por ID
@@ -239,24 +252,37 @@ Content-Type: application/json
 GET /stores
 ```
 
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
 **Respuesta:**
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Mi Restaurante",
-    "image": "https://cloudinary.com/image.jpg",
-    "coverImage": "https://cloudinary.com/cover.jpg",
-    "categoryId": 1,
-    "category": {
+{
+  "data": [
+    {
       "id": 1,
-      "name": "Restaurantes"
-    },
-    "createdAt": "2026-02-22T12:00:00.000Z",
-    "updatedAt": "2026-02-22T12:00:00.000Z"
+      "name": "Mi Restaurante",
+      "image": "https://cloudinary.com/image.jpg",
+      "coverImage": "https://cloudinary.com/cover.jpg",
+      "categoryId": 1,
+      "category": {
+        "id": 1,
+        "name": "Restaurantes"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 10,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
   }
-]
+}
 ```
 
 ### Obtener Tienda por ID
@@ -390,23 +416,36 @@ Content-Type: application/json
 GET /products-categories
 ```
 
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
 **Respuesta:**
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Hamburguesas",
-    "storeId": 1,
-    "store": {
+{
+  "data": [
+    {
       "id": 1,
-      "name": "Mi Restaurante"
-    },
-    "products": [],
-    "createdAt": "2026-02-22T12:00:00.000Z",
-    "updatedAt": "2026-02-22T12:00:00.000Z"
+      "name": "Hamburguesas",
+      "storeId": 1,
+      "store": {
+        "id": 1,
+        "name": "Mi Restaurante"
+      },
+      "products": [],
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 5,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
   }
-]
+}
 ```
 
 ### Obtener Categorías por Tienda
@@ -547,23 +586,36 @@ Content-Type: application/json
 GET /delivery-options
 ```
 
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
 **Respuesta:**
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Delivery Normal",
-    "fee": 5.0,
-    "storeId": 1,
-    "store": {
+{
+  "data": [
+    {
       "id": 1,
-      "name": "Mi Restaurante"
-    },
-    "createdAt": "2026-02-22T12:00:00.000Z",
-    "updatedAt": "2026-02-22T12:00:00.000Z"
+      "name": "Delivery Normal",
+      "fee": 5.0,
+      "storeId": 1,
+      "store": {
+        "id": 1,
+        "name": "Mi Restaurante"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 3,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
   }
-]
+}
 ```
 
 ### Obtener Opciones de Delivery por Tienda
@@ -731,33 +783,47 @@ Content-Type: application/json
 GET /products
 ```
 
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+- `storeId` (opcional): Filtrar por tienda
+
 **Respuesta:**
 
 ```json
-[
-  {
-    "id": 1,
-    "title": "Hamburguesa Clásica",
-    "price": 12.99,
-    "images": [
-      "https://cloudinary.com/image1.jpg",
-      "https://cloudinary.com/image2.jpg"
-    ],
-    "description": "Deliciosa hamburguesa con carne de res",
-    "storeId": 1,
-    "categoryId": 1,
-    "store": {
+{
+  "data": [
+    {
       "id": 1,
-      "name": "Mi Restaurante"
-    },
-    "category": {
-      "id": 1,
-      "name": "Hamburguesas"
-    },
-    "createdAt": "2026-02-22T12:00:00.000Z",
-    "updatedAt": "2026-02-22T12:00:00.000Z"
+      "title": "Hamburguesa Clásica",
+      "price": 12.99,
+      "images": [
+        "https://cloudinary.com/image1.jpg",
+        "https://cloudinary.com/image2.jpg"
+      ],
+      "description": "Deliciosa hamburguesa con carne de res",
+      "storeId": 1,
+      "categoryId": 1,
+      "store": {
+        "id": 1,
+        "name": "Mi Restaurante"
+      },
+      "category": {
+        "id": 1,
+        "name": "Hamburguesas"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 25,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 2
   }
-]
+}
 ```
 
 ### Obtener Productos por Tienda

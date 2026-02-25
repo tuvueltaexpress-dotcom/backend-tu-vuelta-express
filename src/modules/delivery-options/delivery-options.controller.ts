@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { DeliveryOptionsService } from './delivery-options.service';
 import { CreateDeliveryOptionDto, UpdateDeliveryOptionDto } from './dto';
@@ -26,13 +28,20 @@ export class DeliveryOptionsController {
   }
 
   @Get()
-  findAll() {
-    return this.deliveryOptionsService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
+    return this.deliveryOptionsService.findAll(page, limit);
   }
 
   @Get('store/:storeId')
-  findByStore(@Param('storeId', ParseIntPipe) storeId: number) {
-    return this.deliveryOptionsService.findByStore(storeId);
+  findByStore(
+    @Param('storeId', ParseIntPipe) storeId: number,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
+    return this.deliveryOptionsService.findByStore(storeId, page, limit);
   }
 
   @Get(':id')

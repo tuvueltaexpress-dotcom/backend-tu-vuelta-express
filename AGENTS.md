@@ -244,8 +244,9 @@ CLOUDINARY_API_SECRET=
 - [x] Crear modulo de Search
 - [x] Buscar tiendas y productos
 - [x] Filtrar por tipo (stores/products/all)
+- [x] Paginación
 - [x] Tests unitarios
 
----
+### Optimizaciones Futuras (Pendiente)
 
-## MVP 1 Completado ✓
+- [x] Agregar paginación a: stores, products, products-categories, delivery-options, stores-categories

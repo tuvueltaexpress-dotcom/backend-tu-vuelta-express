@@ -25,15 +25,32 @@ export class StoresCategoriesService {
     return category;
   }
 
-  async findAll() {
-    return this.prisma.storesCategories.findMany({
-      include: {
-        stores: true,
+  async findAll(page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const [categories, total] = await Promise.all([
+      this.prisma.storesCategories.findMany({
+        include: {
+          stores: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.storesCategories.count(),
+    ]);
+
+    return {
+      data: categories,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
   async findOne(id: number) {

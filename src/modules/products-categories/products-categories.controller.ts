@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ProductsCategoriesService } from './products-categories.service';
 import { CreateProductCategoryDto, UpdateProductCategoryDto } from './dto';
@@ -26,13 +28,20 @@ export class ProductsCategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.productsCategoriesService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
+    return this.productsCategoriesService.findAll(page, limit);
   }
 
   @Get('store/:storeId')
-  findByStore(@Param('storeId', ParseIntPipe) storeId: number) {
-    return this.productsCategoriesService.findByStore(storeId);
+  findByStore(
+    @Param('storeId', ParseIntPipe) storeId: number,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
+    return this.productsCategoriesService.findByStore(storeId, page, limit);
   }
 
   @Get(':id')

@@ -9,6 +9,7 @@ import {
   UseGuards,
   ParseIntPipe,
   Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
@@ -25,14 +26,22 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query('storeId') storeId?: string) {
+  findAll(
+    @Query('storeId') storeId?: string,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
     const storeIdNumber = storeId ? parseInt(storeId, 10) : undefined;
-    return this.productsService.findAll(storeIdNumber);
+    return this.productsService.findAll(storeIdNumber, page, limit);
   }
 
   @Get('store/:storeId')
-  findByStore(@Param('storeId', ParseIntPipe) storeId: number) {
-    return this.productsService.findByStore(storeId);
+  findByStore(
+    @Param('storeId', ParseIntPipe) storeId: number,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+  ) {
+    return this.productsService.findByStore(storeId, page, limit);
   }
 
   @Get(':id')

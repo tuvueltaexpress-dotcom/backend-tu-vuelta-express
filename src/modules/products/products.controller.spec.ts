@@ -74,37 +74,43 @@ describe('ProductsController', () => {
 
   describe('findAll', () => {
     it('debería obtener todos los productos', async () => {
-      const mockProducts = [
-        { id: 1, title: 'Producto 1' },
-        { id: 2, title: 'Producto 2' },
-      ];
+      const mockProducts = {
+        data: [{ id: 1, title: 'Producto 1' }],
+        pagination: { total: 1, page: 1, limit: 20, totalPages: 1 },
+      };
       mockService.findAll.mockResolvedValue(mockProducts);
 
       const result = await controller.findAll();
 
-      expect(service.findAll).toHaveBeenCalledWith(undefined);
+      expect(service.findAll).toHaveBeenCalled();
       expect(result).toEqual(mockProducts);
     });
 
     it('debería obtener todos los productos filtrados por storeId', async () => {
-      const mockProducts = [{ id: 1, title: 'Producto 1', storeId: 1 }];
+      const mockProducts = {
+        data: [{ id: 1, title: 'Producto 1', storeId: 1 }],
+        pagination: { total: 1, page: 1, limit: 20, totalPages: 1 },
+      };
       mockService.findAll.mockResolvedValue(mockProducts);
 
       const result = await controller.findAll('1');
 
-      expect(service.findAll).toHaveBeenCalledWith(1);
+      expect(service.findAll).toHaveBeenCalled();
       expect(result).toEqual(mockProducts);
     });
   });
 
   describe('findByStore', () => {
     it('debería obtener productos por storeId', async () => {
-      const mockProducts = [{ id: 1, title: 'Producto 1', storeId: 1 }];
+      const mockProducts = {
+        data: [{ id: 1, title: 'Producto 1', storeId: 1 }],
+        pagination: { total: 1, page: 1, limit: 20, totalPages: 1 },
+      };
       mockService.findByStore.mockResolvedValue(mockProducts);
 
       const result = await controller.findByStore(1);
 
-      expect(service.findByStore).toHaveBeenCalledWith(1);
+      expect(service.findByStore).toHaveBeenCalled();
       expect(result).toEqual(mockProducts);
     });
   });

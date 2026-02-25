@@ -41,19 +41,36 @@ export class ProductsCategoriesService {
     return category;
   }
 
-  async findAll() {
-    return this.prisma.productsCategories.findMany({
-      include: {
-        store: true,
-        products: true,
+  async findAll(page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const [categories, total] = await Promise.all([
+      this.prisma.productsCategories.findMany({
+        include: {
+          store: true,
+          products: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.productsCategories.count(),
+    ]);
+
+    return {
+      data: categories,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
-  async findByStore(storeId: number) {
+  async findByStore(storeId: number, page: number = 1, limit: number = 20) {
     const store = await this.prisma.stores.findUnique({
       where: { id: storeId },
     });
@@ -62,15 +79,32 @@ export class ProductsCategoriesService {
       throw new NotFoundException('Tienda no encontrada');
     }
 
-    return this.prisma.productsCategories.findMany({
-      where: { storeId },
-      include: {
-        products: true,
+    const skip = (page - 1) * limit;
+
+    const [categories, total] = await Promise.all([
+      this.prisma.productsCategories.findMany({
+        where: { storeId },
+        include: {
+          products: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.productsCategories.count({ where: { storeId } }),
+    ]);
+
+    return {
+      data: categories,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
   async findOne(id: number) {

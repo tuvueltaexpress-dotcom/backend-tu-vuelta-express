@@ -14,6 +14,7 @@ describe('ProductsService', () => {
       findMany: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      count: jest.fn(),
     },
     stores: {
       findUnique: jest.fn(),
@@ -153,23 +154,26 @@ describe('ProductsService', () => {
         },
       ];
       mockPrisma.product.findMany.mockResolvedValue(mockProducts);
+      mockPrisma.product.count.mockResolvedValue(2);
 
       const result = await service.findAll();
 
-      expect(result).toEqual(mockProducts);
+      expect(result.data).toEqual(mockProducts);
+      expect(result.pagination.total).toBe(2);
     });
 
     it('debería filtrar productos por storeId', async () => {
       const mockProducts = [{ id: 1, title: 'Producto 1', storeId: 1 }];
       mockPrisma.product.findMany.mockResolvedValue(mockProducts);
+      mockPrisma.product.count.mockResolvedValue(1);
 
       await service.findAll(1);
 
-      expect(mockPrisma.product.findMany).toHaveBeenCalledWith({
-        where: { storeId: 1 },
-        include: expect.any(Object),
-        orderBy: expect.any(Object),
-      });
+      expect(mockPrisma.product.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { storeId: 1 },
+        }),
+      );
     });
   });
 
@@ -203,10 +207,12 @@ describe('ProductsService', () => {
       });
       const mockProducts = [{ id: 1, title: 'Producto 1', storeId: 1 }];
       mockPrisma.product.findMany.mockResolvedValue(mockProducts);
+      mockPrisma.product.count.mockResolvedValue(1);
 
       const result = await service.findByStore(1);
 
-      expect(result).toEqual(mockProducts);
+      expect(result.data).toEqual(mockProducts);
+      expect(result.pagination.total).toBe(1);
     });
 
     it('debería lanzar error si la tienda no existe', async () => {

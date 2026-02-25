@@ -15,6 +15,7 @@ describe('StoresCategoriesService', () => {
       findMany: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      count: jest.fn(),
     },
   };
 
@@ -66,10 +67,12 @@ describe('StoresCategoriesService', () => {
         { id: 2, name: 'Tiendas' },
       ];
       mockPrisma.storesCategories.findMany.mockResolvedValue(mockCategories);
+      mockPrisma.storesCategories.count.mockResolvedValue(2);
 
       const result = await service.findAll();
 
-      expect(result).toEqual(mockCategories);
+      expect(result.data).toEqual(mockCategories);
+      expect(result.pagination.total).toBe(2);
     });
   });
 

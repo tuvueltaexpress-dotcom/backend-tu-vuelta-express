@@ -42,18 +42,35 @@ export class DeliveryOptionsService {
     return option;
   }
 
-  async findAll() {
-    return this.prisma.deliveryOptions.findMany({
-      include: {
-        store: true,
+  async findAll(page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const [options, total] = await Promise.all([
+      this.prisma.deliveryOptions.findMany({
+        include: {
+          store: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.deliveryOptions.count(),
+    ]);
+
+    return {
+      data: options,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    };
   }
 
-  async findByStore(storeId: number) {
+  async findByStore(storeId: number, page: number = 1, limit: number = 20) {
     const store = await this.prisma.stores.findUnique({
       where: { id: storeId },
     });
@@ -62,12 +79,29 @@ export class DeliveryOptionsService {
       throw new NotFoundException('Tienda no encontrada');
     }
 
-    return this.prisma.deliveryOptions.findMany({
-      where: { storeId },
-      orderBy: {
-        createdAt: 'desc',
+    const skip = (page - 1) * limit;
+
+    const [options, total] = await Promise.all([
+      this.prisma.deliveryOptions.findMany({
+        where: { storeId },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.deliveryOptions.count({ where: { storeId } }),
+    ]);
+
+    return {
+      data: options,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 
   async findOne(id: number) {

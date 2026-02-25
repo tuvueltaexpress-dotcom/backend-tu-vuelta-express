@@ -15,6 +15,7 @@ describe('DeliveryOptionsService', () => {
       findMany: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      count: jest.fn(),
     },
     stores: {
       findUnique: jest.fn(),
@@ -92,10 +93,12 @@ describe('DeliveryOptionsService', () => {
         { id: 2, name: 'Delivery Express', fee: 10.0, storeId: 1 },
       ];
       mockPrisma.deliveryOptions.findMany.mockResolvedValue(mockOptions);
+      mockPrisma.deliveryOptions.count.mockResolvedValue(2);
 
       const result = await service.findAll();
 
-      expect(result).toEqual(mockOptions);
+      expect(result.data).toEqual(mockOptions);
+      expect(result.pagination.total).toBe(2);
     });
   });
 
@@ -106,10 +109,12 @@ describe('DeliveryOptionsService', () => {
         { id: 1, name: 'Delivery Normal', fee: 5.0, storeId: 1 },
       ];
       mockPrisma.deliveryOptions.findMany.mockResolvedValue(mockOptions);
+      mockPrisma.deliveryOptions.count.mockResolvedValue(1);
 
       const result = await service.findByStore(1);
 
-      expect(result).toEqual(mockOptions);
+      expect(result.data).toEqual(mockOptions);
+      expect(result.pagination.total).toBe(1);
     });
 
     it('debería lanzar error si la tienda no existe', async () => {
