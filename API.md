@@ -667,6 +667,274 @@ Authorization: Bearer <token_jwt>
 
 ---
 
+## Productos (Products)
+
+### Crear Producto
+
+```http
+POST /products
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "title": "Hamburguesa Clásica",
+  "price": 12.99,
+  "images": [
+    "data:image/png;base64,iVBORw0KGgo...",
+    "data:image/png;base64,iVBORw0KGgo..."
+  ],
+  "description": "Deliciosa hamburguesa con carne de res, queso, lechuga y tomate",
+  "storeId": 1,
+  "categoryId": 1
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "title": "Hamburguesa Clásica",
+  "price": 12.99,
+  "images": [
+    "https://cloudinary.com/image1.jpg",
+    "https://cloudinary.com/image2.jpg"
+  ],
+  "description": "Deliciosa hamburguesa con carne de res, queso, lechuga y tomate",
+  "storeId": 1,
+  "categoryId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "category": {
+    "id": 1,
+    "name": "Hamburguesas"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+**Validaciones:**
+
+- title: 2-100 caracteres
+- price: número requerido
+- images: array con al menos una imagen en formato base64
+- description: 5-500 caracteres
+- storeId: debe existir en Stores
+- categoryId: debe existir en ProductsCategories
+
+### Obtener Todos los Productos
+
+```http
+GET /products
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Hamburguesa Clásica",
+    "price": 12.99,
+    "images": [
+      "https://cloudinary.com/image1.jpg",
+      "https://cloudinary.com/image2.jpg"
+    ],
+    "description": "Deliciosa hamburguesa con carne de res",
+    "storeId": 1,
+    "categoryId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "category": {
+      "id": 1,
+      "name": "Hamburguesas"
+    },
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Productos por Tienda
+
+```http
+GET /products?storeId=1
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Hamburguesa Clásica",
+    "price": 12.99,
+    "images": ["https://cloudinary.com/image1.jpg"],
+    "description": "Deliciosa hamburguesa con carne de res",
+    "storeId": 1,
+    "categoryId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "category": {
+      "id": 1,
+      "name": "Hamburguesas"
+    },
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Productos por Store ID (ruta alternativa)
+
+```http
+GET /products/store/:storeId
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Hamburguesa Clásica",
+    "price": 12.99,
+    "images": ["https://cloudinary.com/image1.jpg"],
+    "description": "Deliciosa hamburguesa con carne de res",
+    "storeId": 1,
+    "categoryId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "category": {
+      "id": 1,
+      "name": "Hamburguesas"
+    },
+    "createdAt": "2026-02-22T12:00:00.000Z",
+    "updatedAt": "2026-02-22T12:00:00.000Z"
+  }
+]
+```
+
+### Obtener Producto por ID
+
+```http
+GET /products/:id
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "title": "Hamburguesa Clásica",
+  "price": 12.99,
+  "images": [
+    "https://cloudinary.com/image1.jpg",
+    "https://cloudinary.com/image2.jpg"
+  ],
+  "description": "Deliciosa hamburguesa con carne de res, queso, lechuga y tomate",
+  "storeId": 1,
+  "categoryId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "category": {
+    "id": 1,
+    "name": "Hamburguesas"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:00:00.000Z"
+}
+```
+
+**Error (404):**
+
+```json
+{
+  "statusCode": 404,
+  "message": "Producto no encontrado",
+  "timestamp": "2026-02-22T12:00:00.000Z"
+}
+```
+
+### Actualizar Producto
+
+```http
+PUT /products/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "title": "Hamburguesa Gourmet",
+  "price": 15.99,
+  "images": [
+    "data:image/png;base64,iVBORw0KGgo..."
+  ],
+  "description": "Nueva descripción del producto",
+  "categoryId": 2
+}
+```
+
+**Notas:**
+
+- Solo los campos proporcionados serán actualizados
+- Si se envía nuevo images, las anteriores serán eliminadas de Cloudinary
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "title": "Hamburguesa Gourmet",
+  "price": 15.99,
+  "images": ["https://cloudinary.com/new_image1.jpg"],
+  "description": "Nueva descripción del producto",
+  "storeId": 1,
+  "categoryId": 2,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "category": {
+    "id": 2,
+    "name": "Hamburguesas Gourmet"
+  },
+  "createdAt": "2026-02-22T12:00:00.000Z",
+  "updatedAt": "2026-02-22T12:30:00.000Z"
+}
+```
+
+### Eliminar Producto
+
+```http
+DELETE /products/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Notas:**
+
+- Eliminará el producto y todas sus imágenes de Cloudinary
+
+**Respuesta:**
+
+```json
+{
+  "message": "Producto eliminado correctamente"
+}
+```
+
+---
+
 ## Códigos de Error
 
 | Código | Descripción                                          |

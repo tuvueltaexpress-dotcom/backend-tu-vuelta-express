@@ -9,6 +9,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { StoresCategoriesModule } from './modules/stores-categories/stores-categories.module';
 import { StoresModule } from './modules/stores/stores.module';
 import { ProductsCategoriesModule } from './modules/products-categories/products-categories.module';
+import { ProductsModule } from './modules/products/products.module';
 import { DeliveryOptionsModule } from './modules/delivery-options/delivery-options.module';
 
 @Global()
@@ -19,6 +20,7 @@ import { DeliveryOptionsModule } from './modules/delivery-options/delivery-optio
     StoresCategoriesModule,
     StoresModule,
     ProductsCategoriesModule,
+    ProductsModule,
     DeliveryOptionsModule,
     JwtModule.register({
       global: true,

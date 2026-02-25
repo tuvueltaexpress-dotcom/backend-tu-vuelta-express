@@ -2,7 +2,7 @@
 
 ## Resumen del Proyecto
 
-Backend de JF3 Delivery Services migrado a NestJS. Mantiene la misma funcionalidad del proyecto Express original pero con arquitectura NestJS.
+Backend de JF3 Delivery Services construido con NestJS. API RESTful para gestión de tiendas, productos, categorías y opciones de delivery.
 
 ---
 
@@ -12,6 +12,7 @@ Backend de JF3 Delivery Services migrado a NestJS. Mantiene la misma funcionalid
 - **ORM:** Prisma
 - **Base de Datos:** PostgreSQL
 - **Autenticación:** JWT + bcrypt
+- **Almacenamiento:** Cloudinary (imágenes)
 - **Arquitectura:** Modular (Modules, Controllers, Services)
 
 ---
@@ -23,31 +24,31 @@ jf3-nest/
 ├── src/
 │   ├── main.ts                    # Entry point
 │   ├── app.module.ts              # Root module
+│   ├── app.controller.ts          # App controller
+│   ├── app.service.ts             # App service
 │   ├── prisma/
 │   │   └── prisma.service.ts      # Prisma client service
 │   ├── modules/                   # Feature modules
-│   │   ├── auth/
-│   │   ├── user-admin/
-│   │   ├── aliado/
-│   │   ├── category/
-│   │   ├── product/
-│   │   ├── order/
-│   │   ├── order-item/
-│   │   ├── payment/
-│   │   ├── paydates/
-│   │   └── delivery/
-│   ├── common/                    # Shared components
-│   │   ├── decorators/
-│   │   ├── filters/
-│   │   ├── guards/
-│   │   ├── interceptors/
-│   │   └── pipes/
-│   └── config/                    # Configuration
+│   │   ├── admin/                 # Autenticación y admin
+│   │   ├── stores-categories/     # Categorías de tiendas
+│   │   ├── stores/               # Tiendas
+│   │   ├── products-categories/  # Categorías de productos
+│   │   ├── products/             # Productos
+│   │   └── delivery-options/     # Opciones de delivery
+│   └── common/                    # Componentes compartidos
+│       ├── services/             # Servicios (Cloudinary)
+│       ├── decorators/
+│       ├── filters/
+│       ├── guards/
+│       ├── interceptors/
+│       └── pipes/
 ├── prisma/
 │   ├── schema.prisma              # Esquema BD
 │   └── migrations/                # Migraciones
 ├── test/
-└── package.json
+├── API.md                         # Documentación de API
+├── package.json
+└── .env                          # Variables de entorno
 ```
 
 ---
@@ -83,7 +84,6 @@ DATABASE_URL=
 
 JWT_SECRET_KEY=
 
-
 # Cloudinary Configuration
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
@@ -94,11 +94,9 @@ CLOUDINARY_API_SECRET=
 
 ## Modelos de Datos (Prisma)
 
-Los siguientes modelos se migrarán progresivamente del proyecto Express:
-
 1. **UserAdmin** - Tabla de usuario administrador
-2. **Stores** - tiendas/aliados
-3. **StoresCategories** - tiendas/aliados
+2. **StoresCategories** - Categorías de tiendas
+3. **Stores** - Tiendas/aliados
 4. **ProductsCategories** - Categorías de productos
 5. **Products** - Productos
 6. **DeliveryOptions** - Opciones de delivery
@@ -201,7 +199,7 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Crear servicio para obtener una categoria de tienda
 - [x] Tests unitarios
 
-### Stores (Tiendas)
+### Stores (Tiendas) (Completado ✓)
 
 - [x] Crear modulo de Stores
 - [x] Crear servicio para crear tienda (SOLO ADMIN)
@@ -230,9 +228,16 @@ Los siguientes modelos se migrarán progresivamente del proyecto Express:
 - [x] Crear servicio para obtener las opciones de delivery por StoreId
 - [x] Tests unitarios
 
+### Products (Productos) (Completado ✓)
+
+- [x] Crear modulo de Products
+- [x] Crear servicio para crear producto (SOLO ADMIN)
+- [x] Crear servicio para modificar producto (SOLO ADMIN)
+- [x] Crear servicio para eliminar producto (SOLO ADMIN)
+- [x] Crear servicio para obtener productos por tienda
+- [x] Integración con Cloudinary (múltiples imágenes en base64)
+- [x] Tests unitarios
+
 ---
 
-## Notas
-
-- El proyecto Express original está en `jf3-service/`
-- El nuevo proyecto NestJS está en `jf3-nest/`
+## MVP 1 Completado ✓

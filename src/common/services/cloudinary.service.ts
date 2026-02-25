@@ -40,7 +40,7 @@ export class CloudinaryService {
     return new Promise((resolve, reject) => {
       cloudinary.uploader.destroy(publicId, (error) => {
         if (error) {
-          reject(error);
+          reject(new Error(error.message));
         } else {
           resolve();
         }
@@ -53,7 +53,7 @@ export class CloudinaryService {
     const uploadIndex = parts.indexOf('upload');
     if (uploadIndex === -1) return url;
 
-    const publicIdWithExtension = parts.slice(uploadIndex + 1).join('/');
+    const publicIdWithExtension = parts.slice(uploadIndex + 2).join('/');
     const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, '');
     return publicId;
   }
