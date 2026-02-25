@@ -139,6 +139,7 @@ CLOUDINARY_API_SECRET=
 - `perf-use-caching` - Implementar estrategias de caching
 - `perf-optimize-database` - Optimizar queries de BD
 - `perf-lazy-loading` - Lazy load modules para startup rápido
+- `perf-always-use-pagination` - Siempre usar paginación en endpoints de lista (findAll) desde el inicio
 
 ### 6. Testing
 
