@@ -935,6 +935,122 @@ Authorization: Bearer <token_jwt>
 
 ---
 
+## Búsqueda (Search)
+
+### Buscar Tiendas y Productos
+
+```http
+GET /search?q=pizza
+```
+
+**Parámetros:**
+
+- `q` (requerido): Término de búsqueda
+- `type` (opcional): `stores` | `products` | `all` (por defecto: `all`)
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
+**Respuesta:**
+
+```json
+{
+  "stores": [
+    {
+      "id": 1,
+      "name": "Pizzeria Italia",
+      "image": "https://cloudinary.com/image.jpg",
+      "coverImage": "https://cloudinary.com/cover.jpg",
+      "categoryId": 1,
+      "category": {
+        "id": 1,
+        "name": "Restaurantes"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Pizza Margherita",
+      "price": 12.99,
+      "images": ["https://cloudinary.com/image.jpg"],
+      "description": "Deliciosa pizza con tomate, mozzarella y albahaca",
+      "storeId": 1,
+      "categoryId": 1,
+      "store": {
+        "id": 1,
+        "name": "Pizzeria Italia"
+      },
+      "category": {
+        "id": 1,
+        "name": "Pizzas"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "stores": {
+      "total": 5,
+      "page": 1,
+      "limit": 20,
+      "totalPages": 1
+    },
+    "products": {
+      "total": 25,
+      "page": 1,
+      "limit": 20,
+      "totalPages": 2
+    }
+  }
+}
+```
+
+**Ejemplo con paginación:**
+
+```http
+GET /search?q=pizza&page=2&limit=10
+```
+
+**Respuesta con paginación (solo stores):**
+
+```json
+{
+  "stores": [
+    {
+      "id": 11,
+      "name": "Pizzeria Nápoles",
+      "image": "https://cloudinary.com/image2.jpg",
+      "coverImage": "https://cloudinary.com/cover2.jpg",
+      "categoryId": 1,
+      "category": {
+        "id": 1,
+        "name": "Restaurantes"
+      },
+      "createdAt": "2026-02-22T12:00:00.000Z",
+      "updatedAt": "2026-02-22T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "stores": {
+      "total": 25,
+      "page": 2,
+      "limit": 10,
+      "totalPages": 3
+    },
+    "products": {
+      "total": 50,
+      "page": 2,
+      "limit": 10,
+      "totalPages": 5
+    }
+  }
+}
+```
+
+---
+
 ## Códigos de Error
 
 | Código | Descripción                                          |

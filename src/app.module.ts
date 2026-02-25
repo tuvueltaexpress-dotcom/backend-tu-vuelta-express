@@ -11,6 +11,7 @@ import { StoresModule } from './modules/stores/stores.module';
 import { ProductsCategoriesModule } from './modules/products-categories/products-categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { DeliveryOptionsModule } from './modules/delivery-options/delivery-options.module';
+import { SearchModule } from './modules/search/search.module';
 
 @Global()
 @Module({
@@ -22,6 +23,7 @@ import { DeliveryOptionsModule } from './modules/delivery-options/delivery-optio
     ProductsCategoriesModule,
     ProductsModule,
     DeliveryOptionsModule,
+    SearchModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET_KEY || 'jf3-delivery-secret-key',

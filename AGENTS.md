@@ -34,7 +34,8 @@ jf3-nest/
 │   │   ├── stores/               # Tiendas
 │   │   ├── products-categories/  # Categorías de productos
 │   │   ├── products/             # Productos
-│   │   └── delivery-options/     # Opciones de delivery
+│   │   ├── delivery-options/     # Opciones de delivery
+│   │   └── search/               # Búsqueda
 │   └── common/                    # Componentes compartidos
 │       ├── services/             # Servicios (Cloudinary)
 │       ├── decorators/
@@ -236,6 +237,13 @@ CLOUDINARY_API_SECRET=
 - [x] Crear servicio para eliminar producto (SOLO ADMIN)
 - [x] Crear servicio para obtener productos por tienda
 - [x] Integración con Cloudinary (múltiples imágenes en base64)
+- [x] Tests unitarios
+
+### Search (Búsqueda) (Completado ✓)
+
+- [x] Crear modulo de Search
+- [x] Buscar tiendas y productos
+- [x] Filtrar por tipo (stores/products/all)
 - [x] Tests unitarios
 
 ---
