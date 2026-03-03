@@ -58,4 +58,14 @@ export class CreateStoreDto {
   @IsNumber({}, { message: 'El ID de categoría debe ser un número' })
   @IsNotEmpty({ message: 'La categoría es requerida' })
   categoryId: number;
+
+  @Expose()
+  @IsOptional()
+  @IsString({ message: 'La hora de apertura debe ser una cadena de texto' })
+  ha?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString({ message: 'La hora de cierre debe ser una cadena de texto' })
+  hc?: string;
 }

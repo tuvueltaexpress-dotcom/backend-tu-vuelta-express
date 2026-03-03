@@ -217,7 +217,9 @@ Content-Type: application/json
   "name": "Mi Restaurante",
   "image": "data:image/png;base64,iVBORw0KGgo...",
   "coverImage": "data:image/png;base64,iVBORw0KGgo...",
-  "categoryId": 1
+  "categoryId": 1,
+  "ha": "09:00",
+  "hc": "22:00"
 }
 ```
 
@@ -229,6 +231,8 @@ Content-Type: application/json
   "name": "Mi Restaurante",
   "image": "https://cloudinary.com/image.jpg",
   "coverImage": "https://cloudinary.com/cover.jpg",
+  "ha": "09:00",
+  "hc": "22:00",
   "categoryId": 1,
   "category": {
     "id": 1,
@@ -245,6 +249,8 @@ Content-Type: application/json
 - image: obligatoria, formato base64
 - coverImage: obligatoria, formato base64
 - categoryId: debe existir en StoresCategories
+- ha: opcional, formato HH:MM (hora de apertura)
+- hc: opcional, formato HH:MM (hora de cierre)
 
 ### Obtener Todas las Tiendas
 
@@ -268,6 +274,8 @@ GET /stores
       "name": "Mi Restaurante",
       "image": "https://cloudinary.com/image.jpg",
       "coverImage": "https://cloudinary.com/cover.jpg",
+      "ha": "09:00",
+      "hc": "22:00",
       "categoryId": 1,
       "category": {
         "id": 1,
@@ -300,6 +308,8 @@ GET /stores/:id
   "name": "Mi Restaurante",
   "image": "https://cloudinary.com/image.jpg",
   "coverImage": "https://cloudinary.com/cover.jpg",
+  "ha": "09:00",
+  "hc": "22:00",
   "categoryId": 1,
   "category": {
     "id": 1,
@@ -333,7 +343,9 @@ Content-Type: application/json
   "name": "Nuevo Nombre",
   "image": "data:image/png;base64,iVBORw0KGgo...",
   "coverImage": "data:image/png;base64,iVBORw0KGgo...",
-  "categoryId": 2
+  "categoryId": 2,
+  "ha": "08:00",
+  "hc": "23:00"
 }
 ```
 
@@ -351,6 +363,8 @@ Content-Type: application/json
   "name": "Nuevo Nombre",
   "image": "https://cloudinary.com/new_image.jpg",
   "coverImage": "https://cloudinary.com/new_cover.jpg",
+  "ha": "08:00",
+  "hc": "23:00",
   "categoryId": 2,
   "category": {
     "id": 2,
@@ -1082,6 +1096,8 @@ GET /search?q=pizza
       "name": "Pizzeria Italia",
       "image": "https://cloudinary.com/image.jpg",
       "coverImage": "https://cloudinary.com/cover.jpg",
+      "ha": "10:00",
+      "hc": "23:00",
       "categoryId": 1,
       "category": {
         "id": 1,
@@ -1145,6 +1161,8 @@ GET /search?q=pizza&page=2&limit=10
       "name": "Pizzeria Nápoles",
       "image": "https://cloudinary.com/image2.jpg",
       "coverImage": "https://cloudinary.com/cover2.jpg",
+      "ha": "11:00",
+      "hc": "22:00",
       "categoryId": 1,
       "category": {
         "id": 1,
