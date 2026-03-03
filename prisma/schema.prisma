@@ -28,11 +28,13 @@ model Stores {
   name        String
   image       String
   coverImage  String?
+  ha          String?
+  hc          String?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   categoryId  Int
   category    StoresCategories @relation(fields: [categoryId], references: [id])
-  products    Product[]
+  products    Product[]        
   productsCategories ProductsCategories[]
   deliveryOptions DeliveryOptions[]
 }
@@ -41,7 +43,7 @@ model ProductsCategories {
   id        Int      @id @default(autoincrement())
   name      String
   storeId   Int
-  store     Stores   @relation(fields: [storeId], references: [id])
+  store     Stores   @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products  Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -54,9 +56,9 @@ model Product {
   images      String[]
   description String
   storeId     Int
-  store       Stores           @relation(fields: [storeId], references: [id])
+  store       Stores           @relation(fields: [storeId], references: [id], onDelete: Cascade)
   categoryId  Int
-  category    ProductsCategories @relation(fields: [categoryId], references: [id])
+  category    ProductsCategories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 }

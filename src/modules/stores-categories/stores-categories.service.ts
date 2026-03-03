@@ -94,10 +94,19 @@ export class StoresCategoriesService {
   async remove(id: number) {
     const existingCategory = await this.prisma.storesCategories.findUnique({
       where: { id },
+      include: {
+        stores: true,
+      },
     });
 
     if (!existingCategory) {
       throw new NotFoundException('Categoría no encontrada');
+    }
+
+    if (existingCategory.stores.length > 0) {
+      throw new ConflictException(
+        'No se puede eliminar la categoría porque tiene tiendas asociadas',
+      );
     }
 
     await this.prisma.storesCategories.delete({
