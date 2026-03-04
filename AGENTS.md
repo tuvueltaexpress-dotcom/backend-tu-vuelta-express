@@ -251,3 +251,106 @@ CLOUDINARY_API_SECRET=
 ### Optimizaciones Futuras (Pendiente)
 
 - [x] Agregar paginación a: stores, products, products-categories, delivery-options, stores-categories
+
+---
+
+## Fase 4: Sistema de Aliados (StorePartners)
+
+### Arquitectura de Usuarios
+
+Sistema multi-rol con tabla de auth centralizada y tablas específicas por rol:
+
+```
+users (Auth)           → id, email, password, role, status, created_at
+store_partners (Aliados) → userId, storeId, businessName, phone
+```
+
+**Roles disponibles:** `admin`, `partner`
+**Estados de cuenta:** `pending_approval`, `active`, `inactive`, `rejected`
+
+### 4.1 Modelos de Datos - Users System
+
+- [ ] Crear tabla `User` genérica para autenticación (email, password, role, status)
+- [ ] Crear tabla `StorePartner` (relación 1:1 con User + datos del negocio + relación con Store)
+- [ ] Actualizar modelo `Stores` para agregar relación con StorePartner
+- [ ] Actualizar schema.prisma con relaciones
+
+### 4.2 Módulo Auth (Generalizado)
+
+- [ ] Refactorizar auth existente para soportar múltiples roles
+- [ ] Crear servicio de registro genérico que cree usuario + tabla específica según rol
+- [ ] Crear servicio de login que retorne datos según tipo de usuario
+- [ ] Implementar JWT con payload incluyendo role y userId
+
+### 4.3 Módulo Store Partners (Registro y Login)
+
+- [ ] Crear endpoint POST /partners/register (crea User + StorePartner con status pending_approval)
+- [ ] Crear endpoint POST /partners/login (retorna JWT si está approved)
+- [ ] Implementar validación de email único
+- [ ] Tests unitarios
+
+### 4.4 Aprobación de Partners (Dashboard Admin)
+
+- [ ] Crear endpoint GET /admin/partners/pending (listar registros pendientes)
+- [ ] Crear endpoint PATCH /admin/partners/:id/approve (aprobar y permitir login)
+- [ ] Crear endpoint PATCH /admin/partners/:id/reject (rechazar registro)
+- [ ] Tests unitarios
+
+### 4.5 Configuración de Tienda (Post-Aprobación)
+
+- [ ] Crear endpoint POST /partners/store (crear Store vinculada al partner aprobado)
+- [ ] Crear endpoint PUT /partners/store (actualizar datos de tienda)
+- [ ] Crear endpoint PUT /partners/store/image (actualizar imagen de tienda)
+- [ ] Guard: solo partners approved pueden acceder
+- [ ] Tests unitarios
+
+### 4.6 Gestión de Productos (Partner)
+
+- [ ] Crear endpoint POST /partners/products (crear producto en su tienda)
+- [ ] Crear endpoint PUT /partners/products/:id (modificar producto)
+- [ ] Crear endpoint DELETE /partners/products/:id (eliminar producto)
+- [ ] Crear endpoint GET /partners/products (listar productos de su tienda)
+- [ ] Guard: verificar que el producto pertenece a su tienda
+- [ ] Tests unitarios
+
+### 4.7 Gestión de Delivery Options (Partner)
+
+- [ ] Crear endpoint POST /partners/delivery-options (crear zona de delivery)
+- [ ] Crear endpoint PUT /partners/delivery-options/:id (modificar zona)
+- [ ] Crear endpoint DELETE /partners/delivery-options/:id (eliminar zona)
+- [ ] Crear endpoint GET /partners/delivery-options (listar zonas de su tienda)
+- [ ] Guard: verificar que la zona pertenece a su tienda
+- [ ] Tests unitarios
+
+### 4.8 Gestión de Categorías de Productos (Partner)
+
+- [ ] Crear endpoint POST /partners/products-categories (crear categoría en su tienda)
+- [ ] Crear endpoint PUT /partners/products-categories/:id (modificar categoría)
+- [ ] Crear endpoint DELETE /partners/products-categories/:id (eliminar categoría)
+- [ ] Crear endpoint GET /partners/products-categories (listar categorías de su tienda)
+- [ ] Guard: verificar que la categoría pertenece a su tienda
+- [ ] Tests unitarios
+
+### 4.9 Dashboard del Partner
+
+- [ ] Crear endpoint GET /partners/dashboard (stats básicas de su tienda)
+- [ ] Tests unitarios
+
+---
+
+## Fases Futuras (Pendiente)
+
+### Sistema de Clientes
+
+- Implementar tabla Client y módulo de autenticación
+- Registro, login y perfil de clientes
+
+### Sistema de Riders
+
+- Implementar tabla Rider y módulo de autenticación
+- Registro, login y gestión de disponibilidad
+
+### Sistema de Pedidos
+
+- Crear tablas Order y OrderItem
+- Flujo completo de pedidos
