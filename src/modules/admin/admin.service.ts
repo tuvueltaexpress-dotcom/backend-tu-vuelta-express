@@ -3,6 +3,7 @@ import {
   ConflictException,
   BadRequestException,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -124,5 +125,83 @@ export class AdminService {
       storesCount,
       productsCount,
     };
+  }
+
+  async getPendingPartners() {
+    const partners = await this.prisma.user.findMany({
+      where: {
+        role: 'PARTNER',
+        status: 'PENDING_APPROVAL',
+      },
+      include: {
+        storePartner: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return partners.map((partner) => ({
+      id: partner.id,
+      email: partner.email,
+      status: partner.status,
+      createdAt: partner.createdAt,
+      businessName: partner.storePartner?.businessName,
+      phone: partner.storePartner?.phone,
+    }));
+  }
+
+  async approvePartner(partnerId: number) {
+    const partner = await this.prisma.user.findUnique({
+      where: { id: partnerId },
+    });
+
+    if (!partner) {
+      throw new NotFoundException('Partner no encontrado');
+    }
+
+    if (partner.role !== 'PARTNER') {
+      throw new BadRequestException('El usuario no es un partner');
+    }
+
+    if (partner.status !== 'PENDING_APPROVAL') {
+      throw new BadRequestException(
+        'El partner no está pendiente de aprobación',
+      );
+    }
+
+    await this.prisma.user.update({
+      where: { id: partnerId },
+      data: { status: 'ACTIVE' },
+    });
+
+    return { message: 'Partner aprobado exitosamente' };
+  }
+
+  async rejectPartner(partnerId: number) {
+    const partner = await this.prisma.user.findUnique({
+      where: { id: partnerId },
+    });
+
+    if (!partner) {
+      throw new NotFoundException('Partner no encontrado');
+    }
+
+    if (partner.role !== 'PARTNER') {
+      throw new BadRequestException('El usuario no es un partner');
+    }
+
+    if (partner.status !== 'PENDING_APPROVAL') {
+      throw new BadRequestException(
+        'El partner no está pendiente de aprobación',
+      );
+    }
+
+    await this.prisma.user.update({
+      where: { id: partnerId },
+      data: { status: 'REJECTED' },
+    });
+
+    return { message: 'Partner rechazado' };
   }
 }

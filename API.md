@@ -78,6 +78,706 @@ Authorization: Bearer <token_jwt>
 
 ---
 
+## Partners (Aliados)
+
+### Registro de Partner
+
+```http
+POST /partners/register
+Content-Type: application/json
+
+{
+  "email": "partner@tienda.com",
+  "password": "Password1",
+  "businessName": "Mi Restaurante",
+  "phone": "+1234567890"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Registro exitoso. Tu cuenta está pendiente de aprobación.",
+  "user": {
+    "id": 1,
+    "email": "partner@tienda.com",
+    "status": "PENDING_APPROVAL",
+    "businessName": "Mi Restaurante"
+  }
+}
+```
+
+**Validaciones:**
+
+- email: formato válido, único en el sistema
+- password: mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número
+- businessName: 2-100 caracteres
+- phone: formato válido (mínimo 10 dígitos)
+
+**Estados de cuenta:**
+
+- `PENDING_APPROVAL`: Pendiente de aprobación por admin
+- `ACTIVE`: Aprobado, puede hacer login
+- `REJECTED`: Rechazado por admin
+- `INACTIVE`: Inactivo
+
+### Login de Partner
+
+```http
+POST /partners/login
+Content-Type: application/json
+
+{
+  "email": "partner@tienda.com",
+  "password": "Password1"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "partner": {
+    "id": 1,
+    "email": "partner@tienda.com",
+    "status": "ACTIVE",
+    "businessName": "Mi Restaurante",
+    "phone": "+1234567890"
+  }
+}
+```
+
+**Errores:**
+
+- `PENDING_APPROVAL`: "Tu cuenta está pendiente de aprobación"
+- `REJECTED`: "Tu cuenta ha sido rechazada"
+- `INACTIVE`: "Tu cuenta está inactiva"
+- Credenciales inválidas: "Credenciales inválidas"
+
+### Perfil del Partner
+
+```http
+GET /partners/profile
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "email": "partner@tienda.com",
+  "role": "PARTNER",
+  "status": "ACTIVE",
+  "businessName": "Mi Restaurante",
+  "phone": "+1234567890",
+  "stores": []
+}
+```
+
+### Crear Tienda
+
+```http
+POST /partners/store
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Mi Restaurante",
+  "image": "data:image/png;base64,iVBORw0KGgo...",
+  "coverImage": "data:image/png;base64,iVBORw0KGgo...",
+  "categoryId": 1,
+  "ha": "09:00",
+  "hc": "22:00"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Mi Restaurante",
+  "image": "https://cloudinary.com/image.jpg",
+  "coverImage": "https://cloudinary.com/cover.jpg",
+  "ha": "09:00",
+  "hc": "22:00",
+  "categoryId": 1,
+  "category": {
+    "id": 1,
+    "name": "Restaurantes"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:00:00.000Z"
+}
+```
+
+**Validaciones:**
+
+- name: 2-100 caracteres
+- image: obligatoria, formato base64
+- coverImage: opcional, formato base64
+- categoryId: debe existir en StoresCategories
+- ha: opcional, formato HH:MM
+- hc: opcional, formato HH:MM
+
+**Notas:**
+
+- Solo partners con status ACTIVE pueden crear tienda
+- La tienda se vincula automáticamente al partner
+
+### Obtener Mi Tienda
+
+```http
+GET /partners/store
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Mi Restaurante",
+  "image": "https://cloudinary.com/image.jpg",
+  "coverImage": "https://cloudinary.com/cover.jpg",
+  "ha": "09:00",
+  "hc": "22:00",
+  "categoryId": 1,
+  "category": {
+    "id": 1,
+    "name": "Restaurantes"
+  },
+  "products": [],
+  "productsCategories": [],
+  "deliveryOptions": [],
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:00:00.000Z"
+}
+```
+
+### Actualizar Tienda
+
+```http
+PUT /partners/store/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Nuevo Nombre",
+  "image": "data:image/png;base64,iVBORw0KGgo...",
+  "coverImage": "data:image/png;base64,iVBORw0KGgo...",
+  "categoryId": 2,
+  "ha": "08:00",
+  "hc": "23:00"
+}
+```
+
+**Notas:**
+
+- Solo los campos proporcionados serán actualizados
+- Si se envía nueva image, la anterior será eliminada de Cloudinary
+- Si se envía nuevo coverImage, el anterior será eliminado de Cloudinary
+- Solo el partner propietario puede actualizar su tienda
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Nuevo Nombre",
+  "image": "https://cloudinary.com/new_image.jpg",
+  "coverImage": "https://cloudinary.com/new_cover.jpg",
+  "ha": "08:00",
+  "hc": "23:00",
+  "categoryId": 2,
+  "category": {
+    "id": 2,
+    "name": "Tiendas"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:30:00.000Z"
+}
+```
+
+---
+
+## Gestión de Productos (Partner)
+
+### Crear Producto
+
+```http
+POST /partners/products
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "title": "Hamburguesa Clásica",
+  "price": 12.99,
+  "images": [
+    "data:image/png;base64,iVBORw0KGgo...",
+    "data:image/png;base64,iVBORw0KGgo..."
+  ],
+  "description": "Deliciosa hamburguesa con carne de res, queso, lechuga y tomate",
+  "categoryId": 1
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "title": "Hamburguesa Clásica",
+  "price": 12.99,
+  "images": [
+    "https://cloudinary.com/image1.jpg",
+    "https://cloudinary.com/image2.jpg"
+  ],
+  "description": "Deliciosa hamburguesa con carne de res, queso, lechuga y tomate",
+  "storeId": 1,
+  "categoryId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "category": {
+    "id": 1,
+    "name": "Hamburguesas"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:00:00.000Z"
+}
+```
+
+**Validaciones:**
+
+- title: 2-100 caracteres
+- price: número requerido
+- images: array con al menos una imagen en formato base64
+- description: 5-500 caracteres
+- categoryId: debe existir en ProductsCategories de la tienda
+
+### Listar Mis Productos
+
+```http
+GET /partners/products
+Authorization: Bearer <token_jwt>
+```
+
+**Parámetros:**
+
+- `page` (opcional): Número de página (por defecto: 1)
+- `limit` (opcional): Resultados por página (por defecto: 20)
+
+**Respuesta:**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Hamburguesa Clásica",
+      "price": 12.99,
+      "images": ["https://cloudinary.com/image1.jpg"],
+      "description": "Deliciosa hamburguesa con carne de res",
+      "storeId": 1,
+      "categoryId": 1,
+      "store": {
+        "id": 1,
+        "name": "Mi Restaurante"
+      },
+      "category": {
+        "id": 1,
+        "name": "Hamburguesas"
+      },
+      "createdAt": "2026-03-03T12:00:00.000Z",
+      "updatedAt": "2026-03-03T12:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 10,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
+  }
+}
+```
+
+### Actualizar Producto
+
+```http
+PUT /partners/products/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "title": "Hamburguesa Gourmet",
+  "price": 15.99,
+  "description": "Nueva descripción del producto"
+}
+```
+
+**Notas:**
+
+- Solo los campos proporcionados serán actualizados
+- Si se envía nuevo images, las anteriores serán eliminadas de Cloudinary
+- Solo el partner propietario puede actualizar el producto
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "title": "Hamburguesa Gourmet",
+  "price": 15.99,
+  "images": ["https://cloudinary.com/image1.jpg"],
+  "description": "Nueva descripción del producto",
+  "storeId": 1,
+  "categoryId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "category": {
+    "id": 1,
+    "name": "Hamburguesas"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:30:00.000Z"
+}
+```
+
+### Eliminar Producto
+
+```http
+DELETE /partners/products/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Notas:**
+
+- Eliminará el producto y todas sus imágenes de Cloudinary
+- Solo el partner propietario puede eliminar el producto
+
+**Respuesta:**
+
+```json
+{
+  "message": "Producto eliminado correctamente"
+}
+```
+
+---
+
+## Gestión de Delivery Options (Partner)
+
+### Crear Opción de Delivery
+
+```http
+POST /partners/delivery-options
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Delivery Normal",
+  "fee": 5.00
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Delivery Normal",
+  "fee": 5.0,
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:00:00.000Z"
+}
+```
+
+**Validaciones:**
+
+- name: 2-100 caracteres
+- fee: número requerido
+
+### Listar Mis Opciones de Delivery
+
+```http
+GET /partners/delivery-options
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Delivery Normal",
+    "fee": 5.0,
+    "storeId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "createdAt": "2026-03-03T12:00:00.000Z",
+    "updatedAt": "2026-03-03T12:00:00.000Z"
+  }
+]
+```
+
+### Actualizar Opción de Delivery
+
+```http
+PUT /partners/delivery-options/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Delivery Express",
+  "fee": 10.00
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Delivery Express",
+  "fee": 10.0,
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:30:00.000Z"
+}
+```
+
+### Eliminar Opción de Delivery
+
+```http
+DELETE /partners/delivery-options/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Opción de delivery eliminada correctamente"
+}
+```
+
+---
+
+## Gestión de Categorías de Productos (Partner)
+
+### Crear Categoría de Producto
+
+```http
+POST /partners/products-categories
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Hamburguesas"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Hamburguesas",
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:00:00.000Z"
+}
+```
+
+**Validaciones:**
+
+- name: 2-100 caracteres
+
+### Listar Mis Categorías de Productos
+
+```http
+GET /partners/products-categories
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Hamburguesas",
+    "storeId": 1,
+    "store": {
+      "id": 1,
+      "name": "Mi Restaurante"
+    },
+    "products": [],
+    "createdAt": "2026-03-03T12:00:00.000Z",
+    "updatedAt": "2026-03-03T12:00:00.000Z"
+  }
+]
+```
+
+### Actualizar Categoría de Producto
+
+```http
+PUT /partners/products-categories/:id
+Authorization: Bearer <token_jwt>
+Content-Type: application/json
+
+{
+  "name": "Hamburguesas Gourmet"
+}
+```
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Hamburguesas Gourmet",
+  "storeId": 1,
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante"
+  },
+  "createdAt": "2026-03-03T12:00:00.000Z",
+  "updatedAt": "2026-03-03T12:30:00.000Z"
+}
+```
+
+### Eliminar Categoría de Producto
+
+```http
+DELETE /partners/products-categories/:id
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Categoría de producto eliminada correctamente"
+}
+```
+
+---
+
+## Dashboard del Partner
+
+### Obtener Estadísticas
+
+```http
+GET /partners/dashboard
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "store": {
+    "id": 1,
+    "name": "Mi Restaurante",
+    "image": "https://cloudinary.com/image.jpg",
+    "coverImage": "https://cloudinary.com/cover.jpg",
+    "ha": "09:00",
+    "hc": "22:00",
+    "category": {
+      "id": 1,
+      "name": "Restaurantes"
+    }
+  },
+  "stats": {
+    "productsCount": 15,
+    "categoriesCount": 3,
+    "deliveryOptionsCount": 2
+  }
+}
+```
+
+---
+
+## Gestión de Partners (Admin)
+
+### Listar Partners Pendientes
+
+```http
+GET /admin/partners/pending
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "email": "partner@tienda.com",
+    "status": "PENDING_APPROVAL",
+    "createdAt": "2026-03-03T12:00:00.000Z",
+    "businessName": "Mi Restaurante",
+    "phone": "+1234567890"
+  }
+]
+```
+
+### Aprobar Partner
+
+```http
+PATCH /admin/partners/:id/approve
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Partner aprobado exitosamente"
+}
+```
+
+### Rechazar Partner
+
+```http
+PATCH /admin/partners/:id/reject
+Authorization: Bearer <token_jwt>
+```
+
+**Respuesta:**
+
+```json
+{
+  "message": "Partner rechazado"
+}
+```
+
+---
+
 ## Categorías de Tiendas (StoresCategories)
 
 ### Crear Categoría

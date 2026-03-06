@@ -15,6 +15,27 @@ model UserAdmin {
   createdAt DateTime @default(now())
 }
 
+model User {
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
+  password  String
+  role      String       @default("PARTNER")
+  status    String       @default("PENDING_APPROVAL")
+  createdAt DateTime     @default(now())
+  storePartner StorePartner?
+}
+
+model StorePartner {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName  String
+  phone         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  stores        Stores[]
+}
+
 model StoresCategories {
   id        Int      @id @default(autoincrement())
   name      String
@@ -37,6 +58,8 @@ model Stores {
   products    Product[]        
   productsCategories ProductsCategories[]
   deliveryOptions DeliveryOptions[]
+  partnerId   Int?
+  partner     StorePartner?   @relation(fields: [partnerId], references: [id])
 }
 
 model ProductsCategories {
