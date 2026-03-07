@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Body,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto, LoginDto } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -27,5 +35,23 @@ export class AdminController {
   @UseGuards(JwtAuthGuard)
   getDashboard() {
     return this.adminService.getDashboard();
+  }
+
+  @Get('partners/pending')
+  @UseGuards(JwtAuthGuard)
+  getPendingPartners() {
+    return this.adminService.getPendingPartners();
+  }
+
+  @Patch('partners/:id/approve')
+  @UseGuards(JwtAuthGuard)
+  approvePartner(@Param('id') id: string) {
+    return this.adminService.approvePartner(+id);
+  }
+
+  @Patch('partners/:id/reject')
+  @UseGuards(JwtAuthGuard)
+  rejectPartner(@Param('id') id: string) {
+    return this.adminService.rejectPartner(+id);
   }
 }

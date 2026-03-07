@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { CloudinaryService } from './common/services/cloudinary.service';
 import { AdminModule } from './modules/admin/admin.module';
+import { PartnersModule } from './modules/partners/partners.module';
 import { StoresCategoriesModule } from './modules/stores-categories/stores-categories.module';
 import { StoresModule } from './modules/stores/stores.module';
 import { ProductsCategoriesModule } from './modules/products-categories/products-categories.module';
@@ -18,6 +19,7 @@ import { SearchModule } from './modules/search/search.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     AdminModule,
+    PartnersModule,
     StoresCategoriesModule,
     StoresModule,
     ProductsCategoriesModule,

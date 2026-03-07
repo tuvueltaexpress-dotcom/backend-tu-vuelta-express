@@ -270,71 +270,71 @@ store_partners (Aliados) → userId, storeId, businessName, phone
 
 ### 4.1 Modelos de Datos - Users System
 
-- [ ] Crear tabla `User` genérica para autenticación (email, password, role, status)
-- [ ] Crear tabla `StorePartner` (relación 1:1 con User + datos del negocio + relación con Store)
-- [ ] Actualizar modelo `Stores` para agregar relación con StorePartner
-- [ ] Actualizar schema.prisma con relaciones
+- [x] Crear tabla `User` genérica para autenticación (email, password, role, status)
+- [x] Crear tabla `StorePartner` (relación 1:1 con User + datos del negocio + relación con Store)
+- [x] Actualizar modelo `Stores` para agregar relación con StorePartner
+- [x] Actualizar schema.prisma con relaciones
 
 ### 4.2 Módulo Auth (Generalizado)
 
-- [ ] Refactorizar auth existente para soportar múltiples roles
-- [ ] Crear servicio de registro genérico que cree usuario + tabla específica según rol
-- [ ] Crear servicio de login que retorne datos según tipo de usuario
-- [ ] Implementar JWT con payload incluyendo role y userId
+- [x] Refactorizar auth existente para soportar múltiples roles
+- [x] Crear servicio de registro genérico que cree usuario + tabla específica según rol
+- [x] Crear servicio de login que retorne datos según tipo de usuario
+- [x] Implementar JWT con payload incluyendo role y userId
 
 ### 4.3 Módulo Store Partners (Registro y Login)
 
-- [ ] Crear endpoint POST /partners/register (crea User + StorePartner con status pending_approval)
-- [ ] Crear endpoint POST /partners/login (retorna JWT si está approved)
-- [ ] Implementar validación de email único
-- [ ] Tests unitarios
+- [x] Crear endpoint POST /partners/register (crea User + StorePartner con status pending_approval)
+- [x] Crear endpoint POST /partners/login (retorna JWT si está approved)
+- [x] Implementar validación de email único
+- [x] Tests unitarios
 
 ### 4.4 Aprobación de Partners (Dashboard Admin)
 
-- [ ] Crear endpoint GET /admin/partners/pending (listar registros pendientes)
-- [ ] Crear endpoint PATCH /admin/partners/:id/approve (aprobar y permitir login)
-- [ ] Crear endpoint PATCH /admin/partners/:id/reject (rechazar registro)
-- [ ] Tests unitarios
+- [x] Crear endpoint GET /admin/partners/pending (listar registros pendientes)
+- [x] Crear endpoint PATCH /admin/partners/:id/approve (aprobar y permitir login)
+- [x] Crear endpoint PATCH /admin/partners/:id/reject (rechazar registro)
+- [x] Tests unitarios
 
 ### 4.5 Configuración de Tienda (Post-Aprobación)
 
-- [ ] Crear endpoint POST /partners/store (crear Store vinculada al partner aprobado)
-- [ ] Crear endpoint PUT /partners/store (actualizar datos de tienda)
-- [ ] Crear endpoint PUT /partners/store/image (actualizar imagen de tienda)
-- [ ] Guard: solo partners approved pueden acceder
-- [ ] Tests unitarios
+- [x] Crear endpoint POST /partners/store (crear Store vinculada al partner aprobado)
+- [x] Crear endpoint PUT /partners/store/:id (actualizar datos de tienda)
+- [x] Crear endpoint GET /partners/store (obtener tienda del partner)
+- [x] Guard: solo partners approved pueden acceder
+- [x] Tests unitarios
 
 ### 4.6 Gestión de Productos (Partner)
 
-- [ ] Crear endpoint POST /partners/products (crear producto en su tienda)
-- [ ] Crear endpoint PUT /partners/products/:id (modificar producto)
-- [ ] Crear endpoint DELETE /partners/products/:id (eliminar producto)
-- [ ] Crear endpoint GET /partners/products (listar productos de su tienda)
-- [ ] Guard: verificar que el producto pertenece a su tienda
-- [ ] Tests unitarios
+- [x] Crear endpoint POST /partners/products (crear producto en su tienda)
+- [x] Crear endpoint PUT /partners/products/:id (modificar producto)
+- [x] Crear endpoint DELETE /partners/products/:id (eliminar producto)
+- [x] Crear endpoint GET /partners/products (listar productos de su tienda)
+- [x] Guard: verificar que el producto pertenece a su tienda
+- [x] Tests unitarios
 
 ### 4.7 Gestión de Delivery Options (Partner)
 
-- [ ] Crear endpoint POST /partners/delivery-options (crear zona de delivery)
-- [ ] Crear endpoint PUT /partners/delivery-options/:id (modificar zona)
-- [ ] Crear endpoint DELETE /partners/delivery-options/:id (eliminar zona)
-- [ ] Crear endpoint GET /partners/delivery-options (listar zonas de su tienda)
-- [ ] Guard: verificar que la zona pertenece a su tienda
-- [ ] Tests unitarios
+- [x] Crear endpoint POST /partners/delivery-options (crear zona de delivery)
+- [x] Crear endpoint PUT /partners/delivery-options/:id (modificar zona)
+- [x] Crear endpoint DELETE /partners/delivery-options/:id (eliminar zona)
+- [x] Crear endpoint GET /partners/delivery-options (listar zonas de su tienda)
+- [x] Guard: verificar que la zona pertenece a su tienda
+- [x] Tests unitarios
 
 ### 4.8 Gestión de Categorías de Productos (Partner)
 
-- [ ] Crear endpoint POST /partners/products-categories (crear categoría en su tienda)
-- [ ] Crear endpoint PUT /partners/products-categories/:id (modificar categoría)
-- [ ] Crear endpoint DELETE /partners/products-categories/:id (eliminar categoría)
-- [ ] Crear endpoint GET /partners/products-categories (listar categorías de su tienda)
-- [ ] Guard: verificar que la categoría pertenece a su tienda
-- [ ] Tests unitarios
+- [x] Crear endpoint POST /partners/products-categories (crear categoría en su tienda)
+- [x] Crear endpoint PUT /partners/products-categories/:id (modificar categoría)
+- [x] Crear endpoint DELETE /partners/products-categories/:id (eliminar categoría)
+- [x] Crear endpoint GET /partners/products-categories (listar categorías de su tienda)
+- [x] Guard: verificar que la categoría pertenece a su tienda
+- [x] Tests unitarios
 
 ### 4.9 Dashboard del Partner
 
-- [ ] Crear endpoint GET /partners/dashboard (stats básicas de su tienda)
-- [ ] Tests unitarios
+- [x] Crear endpoint GET /partners/dashboard (stats básicas de su tienda)
+- [x] Tests unitarios
 
 ---
 
