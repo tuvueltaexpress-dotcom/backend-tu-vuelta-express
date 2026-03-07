@@ -408,6 +408,10 @@ export class PartnersService {
     return product;
   }
 
+  private isBase64Image(image: string): boolean {
+    return image.startsWith('data:image');
+  }
+
   async updateProduct(
     userId: number,
     productId: number,
@@ -441,18 +445,28 @@ export class PartnersService {
 
     let imageUrls = product.images;
     if (data.images && data.images.length > 0) {
-      for (const image of product.images) {
+      const previousImages = product.images;
+      const newImages = data.images;
+
+      const imagesToDelete = previousImages.filter(
+        (img) => !newImages.includes(img),
+      );
+      for (const image of imagesToDelete) {
         const publicId = this.cloudinaryService.extractPublicId(image);
         await this.cloudinaryService.deleteImage(publicId);
       }
 
       imageUrls = [];
-      for (const image of data.images) {
-        const result = await this.cloudinaryService.uploadImage(
-          image,
-          'jf3/products',
-        );
-        imageUrls.push(result.secure_url);
+      for (const image of newImages) {
+        if (this.isBase64Image(image)) {
+          const result = await this.cloudinaryService.uploadImage(
+            image,
+            'jf3/products',
+          );
+          imageUrls.push(result.secure_url);
+        } else {
+          imageUrls.push(image);
+        }
       }
     }
 
