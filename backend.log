@@ -1,0 +1,168 @@
+
+> jf3-nest@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m3:28:48 PM[0m] Starting compilation in watch mode...
+
+[[90m3:28:56 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +43ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSearchModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStoresCategoriesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStoresModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProductsCategoriesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProductsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDeliveryOptionsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPartnersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/dashboard, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/partners/pending, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/partners/:id/approve, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/partners/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPartnersController {/partners}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/store, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/store, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/store/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/delivery-options, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/delivery-options, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/delivery-options/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/delivery-options/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products-categories, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products-categories, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products-categories/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/products-categories/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners/dashboard, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStoresCategoriesController {/stores-categories}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores-categories, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores-categories, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores-categories/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores-categories/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores-categories/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStoresController {/stores}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/stores/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProductsCategoriesController {/products-categories}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories/store/:storeId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products-categories/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProductsController {/products}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products/store/:storeId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/products/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDeliveryOptionsController {/delivery-options}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options/store/:storeId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/delivery-options/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSearchController {/search}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/search, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config - cloud_name: dliq92cas, api_key: 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCLOUDINARY_API_SECRET: SlMOifheGe_pEAbf-pWhNTCFxCQ[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config - cloud_name: dliq92cas, api_key: 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCLOUDINARY_API_SECRET: SlMOifheGe_pEAbf-pWhNTCFxCQ[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:28:59 PM [32m    LOG[39m [38;5;3m[Bootstrap] [39m[32mAplicación iniciada en puerto 3000[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:02 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /admin/login - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:29:02 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"username":"TuVueltaExpress","password":"TuVuelta01!"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:02 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /admin/login - 201 - 222ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:03 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /stores - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:29:03 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"name":"Mi Tienda","image":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==","coverImage":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==","categoryId":1,"ha":"09:00","hc":"22:00"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:03 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mAttempting to upload image to folder: jf3/stores[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:03 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config: dliq92cas, 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:04 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mUpload successful: https://res.cloudinary.com/dliq92cas/image/upload/v1773084543/jf3/stores/vfl90wezlrkspxyft2xr.png[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:04 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mAttempting to upload image to folder: jf3/stores/cover[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:04 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config: dliq92cas, 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:05 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mUpload successful: https://res.cloudinary.com/dliq92cas/image/upload/v1773084544/jf3/stores/cover/h8hwawlpq0hf3vjjnqhx.png[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:05 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /stores - 201 - 2330ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:11 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /partners/login - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:29:11 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"email":"moisesisraelnavarro@gmail.com","password":"TuVuelta01!"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:11 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /partners/login - 201 - 84ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /partners/login - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"email":"moisesisraelnavarro@gmail.com","password":"TuVuelta01!"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /partners/login - 201 - 72ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /partners/store - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"name":"Tienda del Aliado","image":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==","coverImage":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==","categoryId":1,"ha":"08:00","hc":"20:00"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mAttempting to upload image to folder: jf3/stores[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:18 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config: dliq92cas, 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:19 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mUpload successful: https://res.cloudinary.com/dliq92cas/image/upload/v1773084558/jf3/stores/gvzsi3ttq51xsdaqg27s.png[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:19 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mAttempting to upload image to folder: jf3/stores/cover[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:19 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mCloudinary config: dliq92cas, 726776734257223[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:19 PM [32m    LOG[39m [38;5;3m[CloudinaryService] [39m[32mUpload successful: https://res.cloudinary.com/dliq92cas/image/upload/v1773084559/jf3/stores/cover/abidnjkdwm5hjxyu8wlt.png[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:19 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /partners/store - 201 - 1572ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:24 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:24 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:24 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 63ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:29:24 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 61ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:26 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories - IP: ::1 - User-Agent: curl/8.5.0[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:26 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories - 200 - 196ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:31 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming POST /admin/login - IP: ::1 - User-Agent: curl/8.5.0[39m
+[95m[Nest] 50483  - [39m03/09/2026, 3:36:31 PM [95m  DEBUG[39m [38;5;3m[HTTP] [39m[95mBody: {"username":"TuVueltaExpress","password":"TuVuelta01!"}[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:31 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing POST /admin/login - 201 - 107ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:43 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:43 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:43 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 31ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:36:43 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 34ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:37:59 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:37:59 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:37:59 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 29ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:37:59 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 36ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:09 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:09 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:09 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 47ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:09 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 43ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:14 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50&categoryId=1 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:14 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:14 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50&categoryId=1 - 200 - 9ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:14 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 9ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:16 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:16 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:16 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 6ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:16 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 7ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:36 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:36 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:36 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 48ms[39m
+[32m[Nest] 50483  - [39m03/09/2026, 3:38:36 PM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 55ms[39m
+[32m[Nest] 50483  - [39m03/10/2026, 9:21:20 AM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/10/2026, 9:21:21 AM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mIncoming GET /stores-categories?page=1&limit=50 - IP: ::ffff:127.0.0.1 - User-Agent: node[39m
+[32m[Nest] 50483  - [39m03/10/2026, 9:21:21 AM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores?page=1&limit=50 - 200 - 303ms[39m
+[32m[Nest] 50483  - [39m03/10/2026, 9:21:21 AM [32m    LOG[39m [38;5;3m[HTTP] [39m[32mOutgoing GET /stores-categories?page=1&limit=50 - 200 - 239ms[39m
+[31m[Nest] 50483  - [39m03/10/2026, 9:21:35 AM [31m  ERROR[39m [38;5;3m[GlobalExceptionFilter] [39m[31mHTTP 404 - Cannot GET /admin/login[39m
+NotFoundException: Cannot GET /admin/login
+    at callback (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/@nestjs/core/router/routes-resolver.js:77:19)
+    at /home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/@nestjs/core/router/router-proxy.js:9:23
+    at Layer.handleRequest (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/lib/layer.js:152:17)
+    at trimPrefix (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/index.js:342:13)
+    at /home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/index.js:297:9
+    at processParams (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/index.js:582:12)
+    at next (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/index.js:291:5)
+    at read (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/body-parser/lib/read.js:53:5)
+    at urlencodedParser (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/body-parser/lib/types/urlencoded.js:57:5)
+    at Layer.handleRequest (/home/minmdev/Documents/Projects/backend-tu-vuelta-express/node_modules/router/lib/layer.js:152:17)
+Terminated

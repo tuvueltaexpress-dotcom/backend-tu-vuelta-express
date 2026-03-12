@@ -36,8 +36,12 @@ export class StoresController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.storesService.findOne(id);
+  findOne(@Param('id') idOrSlug: string) {
+    const isNumeric = /^\d+$/.test(idOrSlug);
+    if (isNumeric) {
+      return this.storesService.findOne(parseInt(idOrSlug, 10));
+    }
+    return this.storesService.findOneBySlug(idOrSlug);
   }
 
   @Put(':id')

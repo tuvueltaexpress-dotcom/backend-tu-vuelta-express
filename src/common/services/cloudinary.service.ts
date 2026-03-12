@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
 
 export interface CloudinaryUploadResult {
@@ -8,12 +7,21 @@ export interface CloudinaryUploadResult {
 }
 
 @Injectable()
-export class CloudinaryService {
-  constructor(private readonly configService: ConfigService) {
+export class CloudinaryService implements OnModuleInit {
+  private readonly logger = new Logger(CloudinaryService.name);
+
+  onModuleInit() {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    
+    this.logger.log(`Cloudinary config - cloud_name: ${cloudName}, api_key: ${apiKey}`);
+    this.logger.log(`CLOUDINARY_API_SECRET: ${apiSecret}`);
+    
     cloudinary.config({
-      cloud_name: this.configService.get('CLOUDINARY_CLOUD_NAME'),
-      api_key: this.configService.get('CLOUDINARY_API_KEY'),
-      api_secret: this.configService.get('CLOUDINARY_API_SECRET'),
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret,
     });
   }
 
@@ -21,15 +29,22 @@ export class CloudinaryService {
     base64Image: string,
     folder: string = 'jf3',
   ): Promise<CloudinaryUploadResult> {
+    this.logger.log(`Attempting to upload image to folder: ${folder}`);
+    this.logger.log(`Cloudinary config: ${cloudinary.config().cloud_name}, ${cloudinary.config().api_key}`);
+    
     return new Promise((resolve, reject) => {
       cloudinary.uploader.upload(
         base64Image,
         { folder, resource_type: 'image' },
         (error, result) => {
-          if (error) {
+            if (error) {
+            this.logger.error(`Cloudinary upload error: ${error.message}, code: ${error.code}`);
             reject(new Error(error.message));
-          } else {
+          } else if (result) {
+            this.logger.log(`Upload successful: ${result.secure_url}`);
             resolve(result as CloudinaryUploadResult);
+          } else {
+            reject(new Error('No result from Cloudinary'));
           }
         },
       );

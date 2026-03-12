@@ -2,12 +2,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CloudinaryService } from '../../common/services/cloudinary.service';
 
+function generateSlug(title: string): string {
+  const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const slugFromTitle = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+    .substring(0, 6);
+  return `${slugFromTitle}${randomChars}`;
+}
+
 @Injectable()
 export class ProductsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
+
+  private async generateUniqueSlug(title: string): Promise<string> {
+    let slug = generateSlug(title);
+    let existing = await this.prisma.product.findUnique({ where: { slug } });
+    
+    while (existing) {
+      slug = generateSlug(title);
+      existing = await this.prisma.product.findUnique({ where: { slug } });
+    }
+    
+    return slug;
+  }
 
   async create(data: {
     title: string;
@@ -39,9 +60,12 @@ export class ProductsService {
     const imageResults = await Promise.all(imageUploadPromises);
     const imageUrls = imageResults.map((result) => result.secure_url);
 
+    const slug = await this.generateUniqueSlug(data.title);
+
     const product = await this.prisma.product.create({
       data: {
         title: data.title,
+        slug,
         price: data.price,
         images: imageUrls,
         description: data.description,
@@ -77,6 +101,20 @@ export class ProductsService {
       this.prisma.product.count({ where }),
     ]);
 
+    const productsWithSlug = await Promise.all(
+      products.map(async (product) => {
+        if (!product.slug) {
+          const newSlug = await this.generateUniqueSlug(product.title);
+          return this.prisma.product.update({
+            where: { id: product.id },
+            data: { slug: newSlug },
+            include: { store: true, category: true },
+          });
+        }
+        return product;
+      })
+    );
+
     return {
       data: products,
       pagination: {
@@ -91,6 +129,22 @@ export class ProductsService {
   async findOne(id: number) {
     const product = await this.prisma.product.findUnique({
       where: { id },
+      include: {
+        store: true,
+        category: true,
+      },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Producto no encontrado');
+    }
+
+    return product;
+  }
+
+  async findOneBySlug(slug: string) {
+    const product = await this.prisma.product.findUnique({
+      where: { slug },
       include: {
         store: true,
         category: true,

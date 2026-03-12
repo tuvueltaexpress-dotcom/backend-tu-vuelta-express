@@ -116,14 +116,16 @@ export class AdminService {
   }
 
   async getDashboard() {
-    const [storesCount, productsCount] = await Promise.all([
+    const [storesCount, productsCount, partnersCount] = await Promise.all([
       this.prisma.stores.count(),
       this.prisma.product.count(),
+      this.prisma.user.count({ where: { role: 'PARTNER' } }),
     ]);
 
     return {
       storesCount,
       productsCount,
+      partnersCount,
     };
   }
 

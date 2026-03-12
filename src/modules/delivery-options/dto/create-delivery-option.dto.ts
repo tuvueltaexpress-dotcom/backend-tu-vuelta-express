@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
-import { Expose } from 'class-transformer';
+import { IsString, IsNotEmpty, IsNumber, IsPositive, IsOptional } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
 
 export class CreateDeliveryOptionDto {
   @Expose()
@@ -8,9 +8,9 @@ export class CreateDeliveryOptionDto {
   name: string;
 
   @Expose()
+  @Type(() => Number)
   @IsNumber({}, { message: 'El costo de delivery debe ser un número' })
   @IsPositive({ message: 'El costo de delivery debe ser mayor a 0' })
-  @IsNotEmpty({ message: 'El costo de delivery es requerido' })
   fee: number;
 
   @Expose()

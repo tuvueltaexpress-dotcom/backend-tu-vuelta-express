@@ -45,8 +45,12 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.productsService.findOne(id);
+  findOne(@Param('id') idOrSlug: string) {
+    const isNumeric = /^\d+$/.test(idOrSlug);
+    if (isNumeric) {
+      return this.productsService.findOne(parseInt(idOrSlug, 10));
+    }
+    return this.productsService.findOneBySlug(idOrSlug);
   }
 
   @Put(':id')

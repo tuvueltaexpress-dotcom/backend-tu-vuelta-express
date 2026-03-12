@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model UserAdmin {
@@ -47,6 +48,7 @@ model StoresCategories {
 model Stores {
   id          Int              @id @default(autoincrement())
   name        String
+  slug        String?          @unique
   image       String
   coverImage  String?
   ha          String?
@@ -75,6 +77,7 @@ model ProductsCategories {
 model Product {
   id          Int               @id @default(autoincrement())
   title       String
+  slug        String?           @unique
   price       Float
   images      String[]
   description String

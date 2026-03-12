@@ -2,13 +2,14 @@ import {
   IsString,
   IsEmail,
   IsInt,
+  IsNumber,
   IsArray,
   MinLength,
   MaxLength,
   Matches,
   IsOptional,
 } from 'class-validator';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 export class RegisterPartnerDto {
   @Expose()
@@ -128,7 +129,7 @@ export class CreateProductDto {
   title: string;
 
   @Expose()
-  @IsInt()
+  @IsNumber({}, { message: 'El precio debe ser un número' })
   price: number;
 
   @Expose()
@@ -158,7 +159,7 @@ export class UpdateProductDto {
   title?: string;
 
   @Expose()
-  @IsInt()
+  @IsNumber({}, { message: 'El precio debe ser un número' })
   @IsOptional()
   price?: number;
 
@@ -191,7 +192,8 @@ export class CreateDeliveryOptionDto {
   name: string;
 
   @Expose()
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber({}, { message: 'El costo de delivery debe ser un número' })
   fee: number;
 }
 
@@ -204,7 +206,8 @@ export class UpdateDeliveryOptionDto {
   name?: string;
 
   @Expose()
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber({}, { message: 'El costo de delivery debe ser un número' })
   @IsOptional()
   fee?: number;
 }
