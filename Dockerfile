@@ -6,6 +6,11 @@ RUN npm ci
 
 COPY . .
 RUN npm run build
+
+# prisma generate necesita validar el schema, que requiere DATABASE_URL.
+# En build-time Railway no inyecta vars, así que usamos un placeholder.
+# En runtime Railway sobreescribe esta variable con el valor real.
+ENV DATABASE_URL="postgresql://placeholder:placeholder@placeholder:5432/placeholder"
 RUN npx prisma generate
 
 ENV NODE_ENV=production
