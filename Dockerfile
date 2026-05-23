@@ -5,10 +5,12 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build
 
-# La variable se pasa solo a este comando (no persiste al runtime)
+# Generar el cliente Prisma ANTES del build (TypeScript necesita los tipos generados)
 RUN DATABASE_URL="postgresql://p:p@p:5432/p" npx prisma generate
+
+# Compilar TypeScript con los tipos de Prisma ya disponibles
+RUN npm run build
 
 ENV NODE_ENV=production
 
