@@ -1,15 +1,23 @@
 FROM node:22-alpine
 WORKDIR /app
 
+# Dependencia necesaria para binarios nativos en Alpine (ej. @swc/core usado por nest-cli)
+RUN apk add --no-cache libc6-compat
+
 COPY package*.json ./
 RUN npm ci
 
 COPY . .
+
+# Compilar TypeScript → dist/
 RUN npm run build
 
-# prisma generate necesita validar el schema, que requiere DATABASE_URL.
-# En build-time Railway no inyecta vars, así que usamos un placeholder.
-# En runtime Railway sobreescribe esta variable con el valor real.
+# Falla el build si dist/main.js no se generó (hace visible el error en los logs de Railway)
+RUN test -f dist/main.js || (echo "ERROR: dist/main.js no existe. Revisa los logs del build." && exit 1)
+
+# prisma generate necesita DATABASE_URL para validar el schema.
+# EN BUILD-TIME Railway no inyecta vars, usamos placeholder.
+# EN RUNTIME Railway sobreescribe este valor con la URL real de la DB.
 ENV DATABASE_URL="postgresql://placeholder:placeholder@placeholder:5432/placeholder"
 RUN npx prisma generate
 
