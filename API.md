@@ -252,7 +252,6 @@ Authorization: Bearer <token_jwt>
   },
   "products": [],
   "productsCategories": [],
-  "deliveryOptions": [],
   "createdAt": "2026-03-03T12:00:00.000Z",
   "updatedAt": "2026-03-03T12:00:00.000Z"
 }
@@ -472,116 +471,6 @@ Authorization: Bearer <token_jwt>
 
 ---
 
-## Gestión de Delivery Options (Partner)
-
-### Crear Opción de Delivery
-
-```http
-POST /partners/delivery-options
-Authorization: Bearer <token_jwt>
-Content-Type: application/json
-
-{
-  "name": "Delivery Normal",
-  "fee": 5.00
-}
-```
-
-**Respuesta:**
-
-```json
-{
-  "id": 1,
-  "name": "Delivery Normal",
-  "fee": 5.0,
-  "storeId": 1,
-  "store": {
-    "id": 1,
-    "name": "Mi Restaurante"
-  },
-  "createdAt": "2026-03-03T12:00:00.000Z",
-  "updatedAt": "2026-03-03T12:00:00.000Z"
-}
-```
-
-**Validaciones:**
-
-- name: 2-100 caracteres
-- fee: número requerido
-
-### Listar Mis Opciones de Delivery
-
-```http
-GET /partners/delivery-options
-Authorization: Bearer <token_jwt>
-```
-
-**Respuesta:**
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Delivery Normal",
-    "fee": 5.0,
-    "storeId": 1,
-    "store": {
-      "id": 1,
-      "name": "Mi Restaurante"
-    },
-    "createdAt": "2026-03-03T12:00:00.000Z",
-    "updatedAt": "2026-03-03T12:00:00.000Z"
-  }
-]
-```
-
-### Actualizar Opción de Delivery
-
-```http
-PUT /partners/delivery-options/:id
-Authorization: Bearer <token_jwt>
-Content-Type: application/json
-
-{
-  "name": "Delivery Express",
-  "fee": 10.00
-}
-```
-
-**Respuesta:**
-
-```json
-{
-  "id": 1,
-  "name": "Delivery Express",
-  "fee": 10.0,
-  "storeId": 1,
-  "store": {
-    "id": 1,
-    "name": "Mi Restaurante"
-  },
-  "createdAt": "2026-03-03T12:00:00.000Z",
-  "updatedAt": "2026-03-03T12:30:00.000Z"
-}
-```
-
-### Eliminar Opción de Delivery
-
-```http
-DELETE /partners/delivery-options/:id
-Authorization: Bearer <token_jwt>
-```
-
-**Respuesta:**
-
-```json
-{
-  "message": "Opción de delivery eliminada correctamente"
-}
-```
-
----
-
 ## Gestión de Categorías de Productos (Partner)
 
 ### Crear Categoría de Producto
@@ -714,8 +603,7 @@ Authorization: Bearer <token_jwt>
   },
   "stats": {
     "productsCount": 15,
-    "categoriesCount": 3,
-    "deliveryOptionsCount": 2
+    "categoriesCount": 3
   }
 }
 ```
@@ -1016,7 +904,6 @@ GET /stores/:id
     "name": "Restaurantes"
   },
   "products": [],
-  "deliveryOptions": [],
   "createdAt": "2026-02-22T12:00:00.000Z",
   "updatedAt": "2026-02-22T12:00:00.000Z"
 }
@@ -1277,186 +1164,49 @@ Authorization: Bearer <token_jwt>
 
 ---
 
-## Opciones de Delivery (DeliveryOptions)
+## Configuración de Delivery (DeliverySettings)
 
-### Crear Opción de Delivery
+Configuración global de la plataforma (no por tienda). Vive en el panel admin bajo "Configuraciones > Delivery". Es un registro único (`id` fijo `1`); `GET` lo crea con valores por defecto si aún no existe.
+
+### Obtener Configuración de Delivery
 
 ```http
-POST /delivery-options
+GET /delivery-settings
+```
+
+Endpoint público (sin autenticación).
+
+**Respuesta:**
+
+```json
+{
+  "id": 1,
+  "pricePerKm": 0,
+  "updatedAt": "2026-08-04T02:00:00.000Z"
+}
+```
+
+### Actualizar Configuración de Delivery
+
+```http
+PUT /delivery-settings
 Authorization: Bearer <token_jwt>
 Content-Type: application/json
 
 {
-  "name": "Delivery Normal",
-  "fee": 5.00,
-  "storeId": 1
+  "pricePerKm": 2.5
 }
 ```
+
+Solo administradores. `pricePerKm` debe ser un número mayor a 0.
 
 **Respuesta:**
 
 ```json
 {
   "id": 1,
-  "name": "Delivery Normal",
-  "fee": 5.0,
-  "storeId": 1,
-  "store": {
-    "id": 1,
-    "name": "Mi Restaurante"
-  },
-  "createdAt": "2026-02-22T12:00:00.000Z",
-  "updatedAt": "2026-02-22T12:00:00.000Z"
-}
-```
-
-### Obtener Todas las Opciones de Delivery
-
-```http
-GET /delivery-options
-```
-
-**Parámetros:**
-
-- `page` (opcional): Número de página (por defecto: 1)
-- `limit` (opcional): Resultados por página (por defecto: 20)
-
-**Respuesta:**
-
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "name": "Delivery Normal",
-      "fee": 5.0,
-      "storeId": 1,
-      "store": {
-        "id": 1,
-        "name": "Mi Restaurante"
-      },
-      "createdAt": "2026-02-22T12:00:00.000Z",
-      "updatedAt": "2026-02-22T12:00:00.000Z"
-    }
-  ],
-  "pagination": {
-    "total": 3,
-    "page": 1,
-    "limit": 20,
-    "totalPages": 1
-  }
-}
-```
-
-### Obtener Opciones de Delivery por Tienda
-
-```http
-GET /delivery-options/store/:storeId
-```
-
-**Parámetros:**
-
-- `page` (opcional): Número de página (por defecto: 1)
-- `limit` (opcional): Resultados por página (por defecto: 20)
-
-**Respuesta:**
-
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "name": "Delivery Normal",
-      "fee": 5.0,
-      "storeId": 1,
-      "createdAt": "2026-02-22T12:00:00.000Z",
-      "updatedAt": "2026-02-22T12:00:00.000Z"
-    }
-  ],
-  "pagination": {
-    "total": 2,
-    "page": 1,
-    "limit": 20,
-    "totalPages": 1
-  }
-}
-```
-
-### Obtener Opción de Delivery por ID
-
-```http
-GET /delivery-options/:id
-```
-
-**Respuesta:**
-
-```json
-{
-  "id": 1,
-  "name": "Delivery Normal",
-  "fee": 5.0,
-  "storeId": 1,
-  "store": {
-    "id": 1,
-    "name": "Mi Restaurante"
-  },
-  "createdAt": "2026-02-22T12:00:00.000Z",
-  "updatedAt": "2026-02-22T12:00:00.000Z"
-}
-```
-
-**Error (404):**
-
-```json
-{
-  "statusCode": 404,
-  "message": "Opción de delivery no encontrada",
-  "timestamp": "2026-02-22T12:00:00.000Z"
-}
-```
-
-### Actualizar Opción de Delivery
-
-```http
-PUT /delivery-options/:id
-Authorization: Bearer <token_jwt>
-Content-Type: application/json
-
-{
-  "name": "Delivery Express",
-  "fee": 10.00
-}
-```
-
-**Respuesta:**
-
-```json
-{
-  "id": 1,
-  "name": "Delivery Express",
-  "fee": 10.0,
-  "storeId": 1,
-  "store": {
-    "id": 1,
-    "name": "Mi Restaurante"
-  },
-  "createdAt": "2026-02-22T12:00:00.000Z",
-  "updatedAt": "2026-02-22T12:30:00.000Z"
-}
-```
-
-### Eliminar Opción de Delivery
-
-```http
-DELETE /delivery-options/:id
-Authorization: Bearer <token_jwt>
-```
-
-**Respuesta:**
-
-```json
-{
-  "message": "Opción de delivery eliminada correctamente"
+  "pricePerKm": 2.5,
+  "updatedAt": "2026-08-04T02:10:00.000Z"
 }
 ```
 

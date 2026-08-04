@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "DeliverySettings" ADD COLUMN     "minFee" DOUBLE PRECISION NOT NULL DEFAULT 0;

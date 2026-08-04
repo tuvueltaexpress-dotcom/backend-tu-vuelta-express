@@ -4,6 +4,8 @@ import {
   IsNumber,
   MinLength,
   MaxLength,
+  Min,
+  Max,
   registerDecorator,
   ValidationOptions,
 } from 'class-validator';
@@ -70,4 +72,18 @@ export class UpdateStoreDto {
   @IsOptional()
   @IsString({ message: 'La hora de cierre debe ser una cadena de texto' })
   hc?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsNumber({}, { message: 'La latitud debe ser un número' })
+  @Min(-90, { message: 'La latitud debe estar entre -90 y 90' })
+  @Max(90, { message: 'La latitud debe estar entre -90 y 90' })
+  latitude?: number;
+
+  @Expose()
+  @IsOptional()
+  @IsNumber({}, { message: 'La longitud debe ser un número' })
+  @Min(-180, { message: 'La longitud debe estar entre -180 y 180' })
+  @Max(180, { message: 'La longitud debe estar entre -180 y 180' })
+  longitude?: number;
 }

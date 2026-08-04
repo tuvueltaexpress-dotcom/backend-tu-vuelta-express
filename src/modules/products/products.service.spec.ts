@@ -10,6 +10,7 @@ describe('ProductsService', () => {
   const mockPrisma = {
     product: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
       findMany: jest.fn(),
       update: jest.fn(),
@@ -18,6 +19,7 @@ describe('ProductsService', () => {
     },
     stores: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
     },
     productsCategories: {
       findUnique: jest.fn(),
@@ -171,7 +173,7 @@ describe('ProductsService', () => {
 
       expect(mockPrisma.product.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { storeId: 1 },
+          where: expect.objectContaining({ storeId: 1 }),
         }),
       );
     });
@@ -185,7 +187,7 @@ describe('ProductsService', () => {
         store: { id: 1, name: 'Mi Tienda' },
         category: { id: 1, name: 'Bebidas' },
       };
-      mockPrisma.product.findUnique.mockResolvedValue(mockProduct);
+      mockPrisma.product.findFirst.mockResolvedValue(mockProduct);
 
       const result = await service.findOne(1);
 
@@ -193,7 +195,7 @@ describe('ProductsService', () => {
     });
 
     it('debería lanzar error si no encuentra el producto', async () => {
-      mockPrisma.product.findUnique.mockResolvedValue(null);
+      mockPrisma.product.findFirst.mockResolvedValue(null);
 
       await expect(service.findOne(999)).rejects.toThrow(NotFoundException);
     });
@@ -201,7 +203,7 @@ describe('ProductsService', () => {
 
   describe('findByStore', () => {
     it('debería obtener productos por storeId', async () => {
-      mockPrisma.stores.findUnique.mockResolvedValue({
+      mockPrisma.stores.findFirst.mockResolvedValue({
         id: 1,
         name: 'Mi Tienda',
       });
@@ -216,7 +218,7 @@ describe('ProductsService', () => {
     });
 
     it('debería lanzar error si la tienda no existe', async () => {
-      mockPrisma.stores.findUnique.mockResolvedValue(null);
+      mockPrisma.stores.findFirst.mockResolvedValue(null);
 
       await expect(service.findByStore(999)).rejects.toThrow(NotFoundException);
     });

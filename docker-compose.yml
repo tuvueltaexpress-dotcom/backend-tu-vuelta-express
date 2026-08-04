@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: jf3-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rauljariasz
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: jf3_services_nestjs
+    ports:
+      - "5433:5432"
+    volumes:
+      - jf3_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  jf3_postgres_data:

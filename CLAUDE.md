@@ -106,7 +106,11 @@ CLOUDINARY_API_SECRET=
 5. **Stores** - Tiendas/aliados (`slug` único opcional, `partnerId` opcional → `StorePartner`)
 6. **ProductsCategories** - Categorías de productos
 7. **Product** - Productos (`slug` único opcional)
-8. **DeliverySettings** - Configuración global de delivery, registro único (`pricePerKm`)
+8. **DeliverySettings** - Configuración global de delivery, registro único (`pricePerKm`, `minFee`)
+
+### Visibilidad pública de tiendas
+
+Las tiendas sin `latitude`/`longitude` quedan **ocultas del sitio público**: se filtran en `stores` (`findAll`/`findOne`/`findOneBySlug`), `products` (listados y detalle) y `search`. El criterio vive en `src/common/constants/located-store.ts`. El panel admin sigue viéndolas pasando `?includeUnlocated=true` en `GET /stores` y `GET /products`.
 
 ---
 

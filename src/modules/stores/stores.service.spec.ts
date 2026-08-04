@@ -11,6 +11,7 @@ describe('StoresService', () => {
   const mockPrisma = {
     stores: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
       findMany: jest.fn(),
       update: jest.fn(),
@@ -123,9 +124,8 @@ describe('StoresService', () => {
         name: 'Mi Tienda',
         category: { id: 1, name: 'Restaurantes' },
         products: [],
-        deliveryOptions: [],
       };
-      mockPrisma.stores.findUnique.mockResolvedValue(mockStore);
+      mockPrisma.stores.findFirst.mockResolvedValue(mockStore);
 
       const result = await service.findOne(1);
 
@@ -133,7 +133,7 @@ describe('StoresService', () => {
     });
 
     it('debería lanzar error si no encuentra la tienda', async () => {
-      mockPrisma.stores.findUnique.mockResolvedValue(null);
+      mockPrisma.stores.findFirst.mockResolvedValue(null);
 
       await expect(service.findOne(999)).rejects.toThrow(NotFoundException);
     });

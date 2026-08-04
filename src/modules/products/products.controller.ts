@@ -30,9 +30,15 @@ export class ProductsController {
     @Query('storeId') storeId?: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
     @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
+    @Query('includeUnlocated') includeUnlocated?: string,
   ) {
     const storeIdNumber = storeId ? parseInt(storeId, 10) : undefined;
-    return this.productsService.findAll(storeIdNumber, page, limit);
+    return this.productsService.findAll(
+      storeIdNumber,
+      page,
+      limit,
+      includeUnlocated === 'true',
+    );
   }
 
   @Get('store/:storeId')

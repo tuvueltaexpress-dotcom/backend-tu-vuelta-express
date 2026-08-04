@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CloudinaryService } from '../../common/services/cloudinary.service';
+import { locatedStoreWhere } from '../../common/constants/located-store';
 
 function generateSlug(name: string): string {
   const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -35,6 +36,10 @@ export class StoresService {
     image: string;
     coverImage: string;
     categoryId: number;
+    ha?: string;
+    hc?: string;
+    latitude?: number;
+    longitude?: number;
   }) {
     const existingCategory = await this.prisma.storesCategories.findUnique({
       where: { id: data.categoryId },
@@ -63,6 +68,10 @@ export class StoresService {
         image: imageResult.secure_url,
         coverImage: coverImageResult.secure_url,
         categoryId: data.categoryId,
+        ha: data.ha,
+        hc: data.hc,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
       include: {
         category: true,
@@ -72,9 +81,17 @@ export class StoresService {
     return store;
   }
 
-  async findAll(page: number = 1, limit: number = 20, categoryId?: number) {
+  async findAll(
+    page: number = 1,
+    limit: number = 20,
+    categoryId?: number,
+    includeUnlocated: boolean = false,
+  ) {
     const skip = (page - 1) * limit;
-    const where = categoryId ? { categoryId } : {};
+    const where = {
+      ...(categoryId ? { categoryId } : {}),
+      ...(includeUnlocated ? {} : locatedStoreWhere()),
+    };
 
     const [stores, total] = await Promise.all([
       this.prisma.stores.findMany({
@@ -117,12 +134,11 @@ export class StoresService {
   }
 
   async findOne(id: number) {
-    const store = await this.prisma.stores.findUnique({
-      where: { id },
+    const store = await this.prisma.stores.findFirst({
+      where: { id, ...locatedStoreWhere() },
       include: {
         category: true,
         products: true,
-        deliveryOptions: true,
       },
     });
 
@@ -134,12 +150,11 @@ export class StoresService {
   }
 
   async findOneBySlug(slug: string) {
-    const store = await this.prisma.stores.findUnique({
-      where: { slug },
+    const store = await this.prisma.stores.findFirst({
+      where: { slug, ...locatedStoreWhere() },
       include: {
         category: true,
         products: true,
-        deliveryOptions: true,
       },
     });
 
@@ -157,6 +172,10 @@ export class StoresService {
       image?: string;
       coverImage?: string;
       categoryId?: number;
+      ha?: string;
+      hc?: string;
+      latitude?: number;
+      longitude?: number;
     },
   ) {
     const existingStore = await this.prisma.stores.findUnique({
@@ -214,6 +233,10 @@ export class StoresService {
         image: imageUrl,
         coverImage: coverImageUrl,
         categoryId: data.categoryId,
+        ha: data.ha,
+        hc: data.hc,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
       include: {
         category: true,
