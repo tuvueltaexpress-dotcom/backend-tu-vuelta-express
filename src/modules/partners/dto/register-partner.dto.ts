@@ -81,12 +81,12 @@ export class CreateStoreDto {
   @Expose()
   @IsString()
   @IsOptional()
-  ha?: string;
+  ha?: string | null;
 
   @Expose()
   @IsString()
   @IsOptional()
-  hc?: string;
+  hc?: string | null;
 
   @Expose()
   @IsNumber({}, { message: 'La latitud debe ser un número' })
@@ -129,12 +129,12 @@ export class UpdateStoreDto {
   @Expose()
   @IsString()
   @IsOptional()
-  ha?: string;
+  ha?: string | null;
 
   @Expose()
   @IsString()
   @IsOptional()
-  hc?: string;
+  hc?: string | null;
 
   @Expose()
   @IsNumber({}, { message: 'La latitud debe ser un número' })

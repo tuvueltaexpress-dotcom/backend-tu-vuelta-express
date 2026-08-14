@@ -150,8 +150,8 @@ export class PartnersService {
       image: string;
       coverImage?: string;
       categoryId: number;
-      ha?: string;
-      hc?: string;
+      ha?: string | null;
+      hc?: string | null;
       latitude?: number;
       longitude?: number;
     },
@@ -221,8 +221,8 @@ export class PartnersService {
       image?: string;
       coverImage?: string;
       categoryId?: number;
-      ha?: string;
-      hc?: string;
+      ha?: string | null;
+      hc?: string | null;
       latitude?: number;
       longitude?: number;
     },

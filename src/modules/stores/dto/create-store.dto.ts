@@ -64,12 +64,12 @@ export class CreateStoreDto {
   @Expose()
   @IsOptional()
   @IsString({ message: 'La hora de apertura debe ser una cadena de texto' })
-  ha?: string;
+  ha?: string | null;
 
   @Expose()
   @IsOptional()
   @IsString({ message: 'La hora de cierre debe ser una cadena de texto' })
-  hc?: string;
+  hc?: string | null;
 
   @Expose()
   @IsOptional()
