@@ -139,6 +139,7 @@ describe('StoresCategoriesService', () => {
       mockPrisma.storesCategories.findUnique.mockResolvedValue({
         id: 1,
         name: 'Restaurantes',
+        stores: [],
       });
       mockPrisma.storesCategories.delete.mockResolvedValue(undefined);
 
@@ -151,6 +152,17 @@ describe('StoresCategoriesService', () => {
       mockPrisma.storesCategories.findUnique.mockResolvedValue(null);
 
       await expect(service.remove(999)).rejects.toThrow(NotFoundException);
+    });
+
+    it('debería lanzar error si la categoría tiene tiendas asociadas', async () => {
+      mockPrisma.storesCategories.findUnique.mockResolvedValue({
+        id: 1,
+        name: 'Restaurantes',
+        stores: [{ id: 1, name: 'Tienda 1' }],
+      });
+
+      await expect(service.remove(1)).rejects.toThrow(ConflictException);
+      expect(mockPrisma.storesCategories.delete).not.toHaveBeenCalled();
     });
   });
 });

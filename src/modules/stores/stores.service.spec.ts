@@ -104,8 +104,18 @@ describe('StoresService', () => {
   describe('findAll', () => {
     it('debería obtener todas las tiendas', async () => {
       const mockStores = [
-        { id: 1, name: 'Tienda 1', category: { id: 1, name: 'Restaurantes' } },
-        { id: 2, name: 'Tienda 2', category: { id: 1, name: 'Restaurantes' } },
+        {
+          id: 1,
+          name: 'Tienda 1',
+          slug: 'tienda-1',
+          category: { id: 1, name: 'Restaurantes' },
+        },
+        {
+          id: 2,
+          name: 'Tienda 2',
+          slug: 'tienda-2',
+          category: { id: 1, name: 'Restaurantes' },
+        },
       ];
       mockPrisma.stores.findMany.mockResolvedValue(mockStores);
       mockPrisma.stores.count.mockResolvedValue(2);
@@ -114,6 +124,29 @@ describe('StoresService', () => {
 
       expect(result.data).toEqual(mockStores);
       expect(result.pagination.total).toBe(2);
+      expect(mockPrisma.stores.update).not.toHaveBeenCalled();
+    });
+
+    it('debería generar el slug de las tiendas que no lo tienen', async () => {
+      const storeSinSlug = {
+        id: 3,
+        name: 'Tienda Sin Slug',
+        slug: null,
+        category: { id: 1, name: 'Restaurantes' },
+      };
+      mockPrisma.stores.findMany.mockResolvedValue([storeSinSlug]);
+      mockPrisma.stores.count.mockResolvedValue(1);
+      // generateUniqueSlug consulta si el slug ya existe: null = disponible
+      mockPrisma.stores.findUnique.mockResolvedValue(null);
+      mockPrisma.stores.update.mockImplementation(({ data }) =>
+        Promise.resolve({ ...storeSinSlug, slug: data.slug }),
+      );
+
+      const result = await service.findAll();
+
+      expect(mockPrisma.stores.update).toHaveBeenCalledTimes(1);
+      expect(result.data[0].slug).toEqual(expect.any(String));
+      expect(result.data[0].slug).not.toBeNull();
     });
   });
 

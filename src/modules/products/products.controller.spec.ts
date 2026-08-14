@@ -11,6 +11,7 @@ describe('ProductsController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
+    findOneBySlug: jest.fn(),
     findByStore: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
@@ -116,13 +117,25 @@ describe('ProductsController', () => {
   });
 
   describe('findOne', () => {
-    it('debería obtener un producto por ID', async () => {
+    it('debería obtener un producto por ID cuando el parámetro es numérico', async () => {
       const mockProduct = { id: 1, title: 'Mi Producto' };
       mockService.findOne.mockResolvedValue(mockProduct);
 
-      const result = await controller.findOne(1);
+      const result = await controller.findOne('1');
 
       expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(service.findOneBySlug).not.toHaveBeenCalled();
+      expect(result).toEqual(mockProduct);
+    });
+
+    it('debería obtener un producto por slug cuando el parámetro no es numérico', async () => {
+      const mockProduct = { id: 1, title: 'Mi Producto', slug: 'mi-producto' };
+      mockService.findOneBySlug.mockResolvedValue(mockProduct);
+
+      const result = await controller.findOne('mi-producto');
+
+      expect(service.findOneBySlug).toHaveBeenCalledWith('mi-producto');
+      expect(service.findOne).not.toHaveBeenCalled();
       expect(result).toEqual(mockProduct);
     });
   });

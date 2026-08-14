@@ -26,6 +26,7 @@ describe('AdminService', () => {
     },
     stores: { count: jest.fn() },
     product: { count: jest.fn() },
+    user: { count: jest.fn() },
   };
 
   const mockJwtService = {
@@ -153,10 +154,18 @@ describe('AdminService', () => {
     it('debería obtener las estadísticas del dashboard', async () => {
       mockPrisma.stores.count.mockResolvedValue(5);
       mockPrisma.product.count.mockResolvedValue(10);
+      mockPrisma.user.count.mockResolvedValue(3);
 
       const result = await service.getDashboard();
 
-      expect(result).toEqual({ storesCount: 5, productsCount: 10 });
+      expect(result).toEqual({
+        storesCount: 5,
+        productsCount: 10,
+        partnersCount: 3,
+      });
+      expect(mockPrisma.user.count).toHaveBeenCalledWith({
+        where: { role: 'PARTNER' },
+      });
     });
   });
 });
