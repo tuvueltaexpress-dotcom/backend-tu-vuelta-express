@@ -15,9 +15,22 @@ export class CloudinaryService implements OnModuleInit {
     const apiKey = process.env.CLOUDINARY_API_KEY;
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
     
-    this.logger.log(`Cloudinary config - cloud_name: ${cloudName}, api_key: ${apiKey}`);
-    this.logger.log(`CLOUDINARY_API_SECRET: ${apiSecret}`);
-    
+    // Nunca imprimir los valores: estos logs quedan en el panel del proveedor
+    // de despliegue. Basta con saber si la configuración llegó completa.
+    const faltantes = [
+      !cloudName && 'CLOUDINARY_CLOUD_NAME',
+      !apiKey && 'CLOUDINARY_API_KEY',
+      !apiSecret && 'CLOUDINARY_API_SECRET',
+    ].filter(Boolean);
+
+    if (faltantes.length > 0) {
+      this.logger.warn(
+        `Cloudinary sin configurar: falta ${faltantes.join(', ')}. La subida de imágenes fallará.`,
+      );
+    } else {
+      this.logger.log(`Cloudinary configurado (cloud_name: ${cloudName}).`);
+    }
+
     cloudinary.config({
       cloud_name: cloudName,
       api_key: apiKey,
@@ -29,9 +42,8 @@ export class CloudinaryService implements OnModuleInit {
     base64Image: string,
     folder: string = 'jf3',
   ): Promise<CloudinaryUploadResult> {
-    this.logger.log(`Attempting to upload image to folder: ${folder}`);
-    this.logger.log(`Cloudinary config: ${cloudinary.config().cloud_name}, ${cloudinary.config().api_key}`);
-    
+    this.logger.log(`Subiendo imagen a la carpeta: ${folder}`);
+
     return new Promise((resolve, reject) => {
       cloudinary.uploader.upload(
         base64Image,
