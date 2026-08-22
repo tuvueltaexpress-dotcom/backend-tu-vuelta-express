@@ -64,6 +64,7 @@ jf3-nest/
 | `start:prod`    | `node dist/main`                             | Producción                                       |
 | `start:migrate` | `prisma migrate deploy && node dist/main`    | Aplica migraciones y arranca (usado en Railway)  |
 | `seed`          | `prisma db seed`                             | Planta el administrador inicial (idempotente)    |
+| `seed:dev`      | `ts-node prisma/seed-dev.ts`                 | Planta data de prueba (solo desarrollo)          |
 | `lint`          | `eslint "{src,apps,libs,test}/**/*.ts" --fix`| Linting                                          |
 | `test`          | `jest`                                       | Tests unitarios                                  |
 | `test:watch`    | `jest --watch`                               | Tests en modo watch                              |
@@ -90,6 +91,20 @@ Credenciales por defecto, sobreescribibles con `ADMIN_SEED_USERNAME` / `ADMIN_SE
 - **`Admin123` no cumple el `passwordRegex` del propio servicio**, que exige un carácter especial de `[@$!%*?&]`. El seed escribe el hash directo sin pasar por esa validación y el login solo hace `bcrypt.compare`, así que funciona — pero es una contraseña que `POST /admin/register` rechazaría.
 
 Cambiar estas credenciales en cualquier entorno expuesto públicamente.
+
+### Seed de data de prueba
+
+`npm run seed:dev` ejecuta `prisma/seed-dev.ts` y planta el catálogo de desarrollo: 5 categorías de tienda, 6 tiendas, 11 categorías de producto, 23 productos, un partner aprobado y la configuración de delivery. Está **deliberadamente separado del seed de admin** — `prisma db seed` (el que se encadena al arranque en producción) no lo toca — y aborta si `NODE_ENV=production`, salvo que se pase `SEED_DEV_FORCE=1`.
+
+Es idempotente por `slug`: cada tienda y cada producto sembrado lleva un slug fijo terminado en `SEED` + número (`pizzerSEED02`, `pizzamSEED04`), así que re-correrlo actualiza en lugar de duplicar. Ese sufijo también distingue a simple vista lo sembrado de lo creado a mano desde el panel.
+
+Detalles que importan al probar contra esta data:
+
+- **Todas las imágenes son una sola URL de Cloudinary** ya existente, para no depender de subir archivos. El `update` del upsert **no** toca `image`/`coverImage`: si alguien sube las imágenes de verdad desde el panel, re-correr el seed no las revierte al placeholder.
+- **"Tienda Sin Ubicación" no tiene coordenadas a propósito.** Sirve para verificar que las tiendas sin `latitude`/`longitude` quedan ocultas del sitio público: `GET /stores` devuelve 5, `GET /stores?includeUnlocated=true` devuelve 6, y su producto ("Producto oculto") no aparece en el buscador.
+- **Burger House cierra a las `00:00`**, que es el caso que ejercita la lógica de abierto/cerrado cuando el horario cruza la medianoche.
+- Las 5 tiendas ubicadas están en Caracas a distancias distintas, para que las cotizaciones de `POST /delivery-settings/quote` den valores diferenciados.
+- Partner de prueba, ya en estado `ACTIVE` (entra al panel sin pasar por la aprobación del admin): `partner@demo.com` / `Partner123`, sobreescribibles con `SEED_DEV_PARTNER_EMAIL` / `SEED_DEV_PARTNER_PASSWORD`. La tienda "Sabores del Ávila" es la suya; las demás no tienen partner.
 
 No existen scripts `prisma:generate`/`prisma:migrate` en `package.json` — para desarrollo local usar `npx prisma generate` / `npx prisma migrate dev` directamente; en producción las migraciones se aplican vía `start:migrate`.
 
