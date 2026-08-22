@@ -63,11 +63,33 @@ jf3-nest/
 | `start:debug`   | `nest start --debug --watch`                 | Desarrollo con debugger                          |
 | `start:prod`    | `node dist/main`                             | Producción                                       |
 | `start:migrate` | `prisma migrate deploy && node dist/main`    | Aplica migraciones y arranca (usado en Railway)  |
+| `seed`          | `prisma db seed`                             | Planta el administrador inicial (idempotente)    |
 | `lint`          | `eslint "{src,apps,libs,test}/**/*.ts" --fix`| Linting                                          |
 | `test`          | `jest`                                       | Tests unitarios                                  |
 | `test:watch`    | `jest --watch`                               | Tests en modo watch                              |
 | `test:cov`      | `jest --coverage`                            | Cobertura de tests                               |
 | `test:e2e`      | `jest --config ./test/jest-e2e.json`         | Tests E2E                                        |
+
+### Seed del administrador
+
+`npm run seed` ejecuta `prisma/seed.ts` (registrado en `prisma.config.ts` bajo `migrations.seed`, que es donde Prisma 7 espera esa clave — ya no en `package.json`). Crea el único `UserAdmin` del sistema y evita tener que pasar por `POST /admin/register` en cada entorno nuevo.
+
+Es **idempotente**: si ya existe un administrador no toca nada, así que volver a correrlo no pisa una contraseña que se haya cambiado después. Se puede encadenar al arranque en producción (`prisma migrate deploy && prisma db seed && node dist/main`) sin riesgo.
+
+Credenciales por defecto, sobreescribibles con `ADMIN_SEED_USERNAME` / `ADMIN_SEED_EMAIL` / `ADMIN_SEED_PASSWORD`:
+
+| Campo | Valor |
+|---|---|
+| Usuario | `admin` |
+| Email | `admin@admin.com` |
+| Contraseña | `Admin123` |
+
+⚠️ Dos cosas que confunden y conviene tener presentes:
+
+- **El login es por `username`, no por email.** `AdminService.login()` busca con `findUnique({ where: { username } })`. El formulario del panel muestra el campo como "Usuario" (su variable interna se llama `loginData.email`, pero viaja como `username`). Con el seed por defecto se entra con `admin`, no con `admin@admin.com`.
+- **`Admin123` no cumple el `passwordRegex` del propio servicio**, que exige un carácter especial de `[@$!%*?&]`. El seed escribe el hash directo sin pasar por esa validación y el login solo hace `bcrypt.compare`, así que funciona — pero es una contraseña que `POST /admin/register` rechazaría.
+
+Cambiar estas credenciales en cualquier entorno expuesto públicamente.
 
 No existen scripts `prisma:generate`/`prisma:migrate` en `package.json` — para desarrollo local usar `npx prisma generate` / `npx prisma migrate dev` directamente; en producción las migraciones se aplican vía `start:migrate`.
 
