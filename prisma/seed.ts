@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 // en producción conviene sobreescribirlos por variables de entorno.
 const username = process.env.ADMIN_SEED_USERNAME ?? 'admin';
 const email = process.env.ADMIN_SEED_EMAIL ?? 'admin@admin.com';
-const password = process.env.ADMIN_SEED_PASSWORD ?? 'Admin123';
+const password = process.env.ADMIN_SEED_PASSWORD ?? 'Admin123*';
 
 async function main() {
   const connectionString = process.env.DATABASE_URL;

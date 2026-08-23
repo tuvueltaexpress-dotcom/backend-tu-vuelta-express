@@ -83,12 +83,12 @@ Credenciales por defecto, sobreescribibles con `ADMIN_SEED_USERNAME` / `ADMIN_SE
 |---|---|
 | Usuario | `admin` |
 | Email | `admin@admin.com` |
-| Contraseña | `Admin123` |
+| Contraseña | `Admin123*` |
 
 ⚠️ Dos cosas que confunden y conviene tener presentes:
 
 - **El login es por `username`, no por email.** `AdminService.login()` busca con `findUnique({ where: { username } })`. El formulario del panel muestra el campo como "Usuario" (su variable interna se llama `loginData.email`, pero viaja como `username`). Con el seed por defecto se entra con `admin`, no con `admin@admin.com`.
-- **`Admin123` no cumple el `passwordRegex` del propio servicio**, que exige un carácter especial de `[@$!%*?&]`. El seed escribe el hash directo sin pasar por esa validación y el login solo hace `bcrypt.compare`, así que funciona — pero es una contraseña que `POST /admin/register` rechazaría.
+- **La contraseña por defecto cumple a propósito el `passwordRegex` del servicio** (`/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/`), de ahí el `*` final. El seed escribe el hash directo sin pasar por esa validación y el login solo hace `bcrypt.compare`, así que técnicamente aceptaría cualquier cosa — pero una contraseña que `POST /admin/register` rechazaría sería una trampa esperando a quien intente recrear ese mismo admin por el endpoint. Si se sobreescribe con `ADMIN_SEED_PASSWORD`, conviene respetar el mismo formato.
 
 Cambiar estas credenciales en cualquier entorno expuesto públicamente.
 
