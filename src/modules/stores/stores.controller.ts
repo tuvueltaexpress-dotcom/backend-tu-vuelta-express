@@ -30,9 +30,15 @@ export class StoresController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
     @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit?: number,
     @Query('categoryId') categoryId?: string,
+    @Query('includeUnlocated') includeUnlocated?: string,
   ) {
     const categoryIdNumber = categoryId ? parseInt(categoryId, 10) : undefined;
-    return this.storesService.findAll(page, limit, categoryIdNumber);
+    return this.storesService.findAll(
+      page,
+      limit,
+      categoryIdNumber,
+      includeUnlocated === 'true',
+    );
   }
 
   @Get(':id')

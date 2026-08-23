@@ -52,13 +52,14 @@ model Stores {
   coverImage  String?
   ha          String?
   hc          String?
+  latitude    Float?
+  longitude   Float?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   categoryId  Int
   category    StoresCategories @relation(fields: [categoryId], references: [id])
-  products    Product[]        
+  products    Product[]
   productsCategories ProductsCategories[]
-  deliveryOptions DeliveryOptions[]
   partnerId   Int?
   partner     StorePartner?   @relation(fields: [partnerId], references: [id])
 }
@@ -88,12 +89,9 @@ model Product {
   updatedAt   DateTime         @updatedAt
 }
 
-model DeliveryOptions {
-  id        Int      @id @default(autoincrement())
-  name      String
-  fee       Float
-  storeId   Int
-  store     Stores   @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model DeliverySettings {
+  id         Int      @id @default(1)
+  pricePerKm Float    @default(0)
+  minFee     Float    @default(0)
+  updatedAt  DateTime @updatedAt
 }

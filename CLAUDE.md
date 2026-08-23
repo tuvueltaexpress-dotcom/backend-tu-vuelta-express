@@ -63,11 +63,48 @@ jf3-nest/
 | `start:debug`   | `nest start --debug --watch`                 | Desarrollo con debugger                          |
 | `start:prod`    | `node dist/main`                             | Producción                                       |
 | `start:migrate` | `prisma migrate deploy && node dist/main`    | Aplica migraciones y arranca (usado en Railway)  |
+| `seed`          | `prisma db seed`                             | Planta el administrador inicial (idempotente)    |
+| `seed:dev`      | `ts-node prisma/seed-dev.ts`                 | Planta data de prueba (solo desarrollo)          |
 | `lint`          | `eslint "{src,apps,libs,test}/**/*.ts" --fix`| Linting                                          |
 | `test`          | `jest`                                       | Tests unitarios                                  |
 | `test:watch`    | `jest --watch`                               | Tests en modo watch                              |
 | `test:cov`      | `jest --coverage`                            | Cobertura de tests                               |
 | `test:e2e`      | `jest --config ./test/jest-e2e.json`         | Tests E2E                                        |
+
+### Seed del administrador
+
+`npm run seed` ejecuta `prisma/seed.ts` (registrado en `prisma.config.ts` bajo `migrations.seed`, que es donde Prisma 7 espera esa clave — ya no en `package.json`). Crea el único `UserAdmin` del sistema y evita tener que pasar por `POST /admin/register` en cada entorno nuevo.
+
+Es **idempotente**: si ya existe un administrador no toca nada, así que volver a correrlo no pisa una contraseña que se haya cambiado después. Se puede encadenar al arranque en producción (`prisma migrate deploy && prisma db seed && node dist/main`) sin riesgo.
+
+Credenciales por defecto, sobreescribibles con `ADMIN_SEED_USERNAME` / `ADMIN_SEED_EMAIL` / `ADMIN_SEED_PASSWORD`:
+
+| Campo | Valor |
+|---|---|
+| Usuario | `admin` |
+| Email | `admin@admin.com` |
+| Contraseña | `Admin123*` |
+
+⚠️ Dos cosas que confunden y conviene tener presentes:
+
+- **El login es por `username`, no por email.** `AdminService.login()` busca con `findUnique({ where: { username } })`. El formulario del panel muestra el campo como "Usuario" (su variable interna se llama `loginData.email`, pero viaja como `username`). Con el seed por defecto se entra con `admin`, no con `admin@admin.com`.
+- **La contraseña por defecto cumple a propósito el `passwordRegex` del servicio** (`/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/`), de ahí el `*` final. El seed escribe el hash directo sin pasar por esa validación y el login solo hace `bcrypt.compare`, así que técnicamente aceptaría cualquier cosa — pero una contraseña que `POST /admin/register` rechazaría sería una trampa esperando a quien intente recrear ese mismo admin por el endpoint. Si se sobreescribe con `ADMIN_SEED_PASSWORD`, conviene respetar el mismo formato.
+
+Cambiar estas credenciales en cualquier entorno expuesto públicamente.
+
+### Seed de data de prueba
+
+`npm run seed:dev` ejecuta `prisma/seed-dev.ts` y planta el catálogo de desarrollo: 5 categorías de tienda, 6 tiendas, 11 categorías de producto, 23 productos, un partner aprobado y la configuración de delivery. Está **deliberadamente separado del seed de admin** — `prisma db seed` (el que se encadena al arranque en producción) no lo toca — y aborta si `NODE_ENV=production`, salvo que se pase `SEED_DEV_FORCE=1`.
+
+Es idempotente por `slug`: cada tienda y cada producto sembrado lleva un slug fijo terminado en `SEED` + número (`pizzerSEED02`, `pizzamSEED04`), así que re-correrlo actualiza en lugar de duplicar. Ese sufijo también distingue a simple vista lo sembrado de lo creado a mano desde el panel.
+
+Detalles que importan al probar contra esta data:
+
+- **Todas las imágenes son una sola URL de Cloudinary** ya existente, para no depender de subir archivos. El `update` del upsert **no** toca `image`/`coverImage`: si alguien sube las imágenes de verdad desde el panel, re-correr el seed no las revierte al placeholder.
+- **"Tienda Sin Ubicación" no tiene coordenadas a propósito.** Sirve para verificar que las tiendas sin `latitude`/`longitude` quedan ocultas del sitio público: `GET /stores` devuelve 5, `GET /stores?includeUnlocated=true` devuelve 6, y su producto ("Producto oculto") no aparece en el buscador.
+- **Burger House cierra a las `00:00`**, que es el caso que ejercita la lógica de abierto/cerrado cuando el horario cruza la medianoche.
+- Las 5 tiendas ubicadas están en Caracas a distancias distintas, para que las cotizaciones de `POST /delivery-settings/quote` den valores diferenciados.
+- Partner de prueba, ya en estado `ACTIVE` (entra al panel sin pasar por la aprobación del admin): `partner@demo.com` / `Partner123`, sobreescribibles con `SEED_DEV_PARTNER_EMAIL` / `SEED_DEV_PARTNER_PASSWORD`. La tienda "Sabores del Ávila" es la suya; las demás no tienen partner.
 
 No existen scripts `prisma:generate`/`prisma:migrate` en `package.json` — para desarrollo local usar `npx prisma generate` / `npx prisma migrate dev` directamente; en producción las migraciones se aplican vía `start:migrate`.
 
@@ -106,7 +143,11 @@ CLOUDINARY_API_SECRET=
 5. **Stores** - Tiendas/aliados (`slug` único opcional, `partnerId` opcional → `StorePartner`)
 6. **ProductsCategories** - Categorías de productos
 7. **Product** - Productos (`slug` único opcional)
-8. **DeliverySettings** - Configuración global de delivery, registro único (`pricePerKm`)
+8. **DeliverySettings** - Configuración global de delivery, registro único (`pricePerKm`, `minFee`)
+
+### Visibilidad pública de tiendas
+
+Las tiendas sin `latitude`/`longitude` quedan **ocultas del sitio público**: se filtran en `stores` (`findAll`/`findOne`/`findOneBySlug`), `products` (listados y detalle) y `search`. El criterio vive en `src/common/constants/located-store.ts`. El panel admin sigue viéndolas pasando `?includeUnlocated=true` en `GET /stores` y `GET /products`.
 
 ---
 

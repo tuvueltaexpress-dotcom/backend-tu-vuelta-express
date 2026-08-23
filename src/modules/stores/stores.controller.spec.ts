@@ -11,6 +11,7 @@ describe('StoresController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
+    findOneBySlug: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
   };
@@ -83,13 +84,25 @@ describe('StoresController', () => {
   });
 
   describe('findOne', () => {
-    it('debería obtener una tienda por ID', async () => {
+    it('debería obtener una tienda por ID cuando el parámetro es numérico', async () => {
       const mockStore = { id: 1, name: 'Mi Tienda' };
       mockService.findOne.mockResolvedValue(mockStore);
 
-      const result = await controller.findOne(1);
+      const result = await controller.findOne('1');
 
       expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(service.findOneBySlug).not.toHaveBeenCalled();
+      expect(result).toEqual(mockStore);
+    });
+
+    it('debería obtener una tienda por slug cuando el parámetro no es numérico', async () => {
+      const mockStore = { id: 1, name: 'Mi Tienda', slug: 'mi-tienda' };
+      mockService.findOneBySlug.mockResolvedValue(mockStore);
+
+      const result = await controller.findOne('mi-tienda');
+
+      expect(service.findOneBySlug).toHaveBeenCalledWith('mi-tienda');
+      expect(service.findOne).not.toHaveBeenCalled();
       expect(result).toEqual(mockStore);
     });
   });

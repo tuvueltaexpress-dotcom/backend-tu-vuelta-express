@@ -150,8 +150,10 @@ export class PartnersService {
       image: string;
       coverImage?: string;
       categoryId: number;
-      ha?: string;
-      hc?: string;
+      ha?: string | null;
+      hc?: string | null;
+      latitude?: number;
+      longitude?: number;
     },
   ) {
     const user = await this.prisma.user.findUnique({
@@ -199,6 +201,8 @@ export class PartnersService {
         categoryId: data.categoryId,
         ha: data.ha,
         hc: data.hc,
+        latitude: data.latitude,
+        longitude: data.longitude,
         partnerId: user.storePartner!.id,
       },
       include: {
@@ -217,8 +221,10 @@ export class PartnersService {
       image?: string;
       coverImage?: string;
       categoryId?: number;
-      ha?: string;
-      hc?: string;
+      ha?: string | null;
+      hc?: string | null;
+      latitude?: number;
+      longitude?: number;
     },
   ) {
     const user = await this.prisma.user.findUnique({
@@ -291,6 +297,8 @@ export class PartnersService {
         categoryId: data.categoryId,
         ha: data.ha,
         hc: data.hc,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
       include: {
         category: true,
@@ -314,7 +322,6 @@ export class PartnersService {
         category: true,
         products: true,
         productsCategories: true,
-        deliveryOptions: true,
       },
     });
 
@@ -541,93 +548,6 @@ export class PartnersService {
     };
   }
 
-  async createDeliveryOption(
-    userId: number,
-    data: {
-      name: string;
-      fee: number;
-    },
-  ) {
-    const store = await this.getStoreAndValidatePartner(userId);
-
-    const deliveryOption = await this.prisma.deliveryOptions.create({
-      data: {
-        name: data.name,
-        fee: data.fee,
-        storeId: store.id,
-      },
-      include: {
-        store: true,
-      },
-    });
-
-    return deliveryOption;
-  }
-
-  async updateDeliveryOption(
-    userId: number,
-    deliveryOptionId: number,
-    data: {
-      name?: string;
-      fee?: number;
-    },
-  ) {
-    const store = await this.getStoreAndValidatePartner(userId);
-
-    const deliveryOption = await this.prisma.deliveryOptions.findUnique({
-      where: { id: deliveryOptionId },
-    });
-
-    if (!deliveryOption || deliveryOption.storeId !== store.id) {
-      throw new NotFoundException('Opción de delivery no encontrada');
-    }
-
-    return this.prisma.deliveryOptions.update({
-      where: { id: deliveryOptionId },
-      data: {
-        name: data.name,
-        fee: data.fee,
-      },
-      include: {
-        store: true,
-      },
-    });
-  }
-
-  async deleteDeliveryOption(userId: number, deliveryOptionId: number) {
-    const store = await this.getStoreAndValidatePartner(userId);
-
-    const deliveryOption = await this.prisma.deliveryOptions.findUnique({
-      where: { id: deliveryOptionId },
-    });
-
-    if (!deliveryOption || deliveryOption.storeId !== store.id) {
-      throw new NotFoundException('Opción de delivery no encontrada');
-    }
-
-    await this.prisma.deliveryOptions.delete({
-      where: { id: deliveryOptionId },
-    });
-
-    return { message: 'Opción de delivery eliminada correctamente' };
-  }
-
-  async getMyDeliveryOptions(userId: number) {
-    const store = await this.getStoreAndValidatePartner(userId);
-
-    const deliveryOptions = await this.prisma.deliveryOptions.findMany({
-      where: { storeId: store.id },
-      include: {
-        store: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    return deliveryOptions;
-  }
-
   async createProductCategory(
     userId: number,
     data: {
@@ -715,12 +635,10 @@ export class PartnersService {
   async getDashboard(userId: number) {
     const store = await this.getStoreAndValidatePartner(userId);
 
-    const [productsCount, categoriesCount, deliveryOptionsCount] =
-      await Promise.all([
-        this.prisma.product.count({ where: { storeId: store.id } }),
-        this.prisma.productsCategories.count({ where: { storeId: store.id } }),
-        this.prisma.deliveryOptions.count({ where: { storeId: store.id } }),
-      ]);
+    const [productsCount, categoriesCount] = await Promise.all([
+      this.prisma.product.count({ where: { storeId: store.id } }),
+      this.prisma.productsCategories.count({ where: { storeId: store.id } }),
+    ]);
 
     return {
       store: {
@@ -735,7 +653,6 @@ export class PartnersService {
       stats: {
         productsCount,
         categoriesCount,
-        deliveryOptionsCount,
       },
     };
   }

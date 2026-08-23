@@ -11,7 +11,7 @@ import { StoresCategoriesModule } from './modules/stores-categories/stores-categ
 import { StoresModule } from './modules/stores/stores.module';
 import { ProductsCategoriesModule } from './modules/products-categories/products-categories.module';
 import { ProductsModule } from './modules/products/products.module';
-import { DeliveryOptionsModule } from './modules/delivery-options/delivery-options.module';
+import { DeliverySettingsModule } from './modules/delivery-settings/delivery-settings.module';
 import { SearchModule } from './modules/search/search.module';
 
 @Global()
@@ -24,7 +24,7 @@ import { SearchModule } from './modules/search/search.module';
     StoresModule,
     ProductsCategoriesModule,
     ProductsModule,
-    DeliveryOptionsModule,
+    DeliverySettingsModule,
     SearchModule,
     JwtModule.register({
       global: true,

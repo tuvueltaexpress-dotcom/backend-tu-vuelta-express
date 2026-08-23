@@ -16,4 +16,8 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]
+# Una sola definición del arranque, en package.json, para que el Dockerfile y
+# el `start:migrate` que usa el panel de despliegue no se desincronicen.
+# Incluye el seed del admin: es idempotente, así que en cada redeploy no hace
+# nada, pero evita que un entorno recién creado quede sin administrador.
+CMD ["npm", "run", "start:migrate"]

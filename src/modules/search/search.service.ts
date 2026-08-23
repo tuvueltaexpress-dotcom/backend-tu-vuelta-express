@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import {
+  locatedStoreWhere,
+  locatedStoreRelationWhere,
+} from '../../common/constants/located-store';
 
 @Injectable()
 export class SearchService {
@@ -38,6 +42,7 @@ export class SearchService {
         this.prisma.stores.findMany({
           where: {
             OR: [{ name: { contains: searchQuery, mode: 'insensitive' } }],
+            ...locatedStoreWhere(),
           },
           include: {
             category: true,
@@ -48,6 +53,7 @@ export class SearchService {
         this.prisma.stores.count({
           where: {
             OR: [{ name: { contains: searchQuery, mode: 'insensitive' } }],
+            ...locatedStoreWhere(),
           },
         }),
       ]);
@@ -72,6 +78,7 @@ export class SearchService {
               { title: { contains: searchQuery, mode: 'insensitive' } },
               { description: { contains: searchQuery, mode: 'insensitive' } },
             ],
+            ...locatedStoreRelationWhere(),
           },
           include: {
             store: true,
@@ -86,6 +93,7 @@ export class SearchService {
               { title: { contains: searchQuery, mode: 'insensitive' } },
               { description: { contains: searchQuery, mode: 'insensitive' } },
             ],
+            ...locatedStoreRelationWhere(),
           },
         }),
       ]);

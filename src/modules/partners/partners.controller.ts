@@ -18,8 +18,6 @@ import {
   UpdateStoreDto,
   CreateProductDto,
   UpdateProductDto,
-  CreateDeliveryOptionDto,
-  UpdateDeliveryOptionDto,
   CreateProductCategoryDto,
   UpdateProductCategoryDto,
 } from './dto';
@@ -60,6 +58,8 @@ export class PartnersController {
       categoryId: createStoreDto.categoryId,
       ha: createStoreDto.ha,
       hc: createStoreDto.hc,
+      latitude: createStoreDto.latitude,
+      longitude: createStoreDto.longitude,
     });
   }
 
@@ -83,6 +83,8 @@ export class PartnersController {
       categoryId: updateStoreDto.categoryId,
       ha: updateStoreDto.ha,
       hc: updateStoreDto.hc,
+      latitude: updateStoreDto.latitude,
+      longitude: updateStoreDto.longitude,
     });
   }
 
@@ -135,43 +137,6 @@ export class PartnersController {
   @UseGuards(JwtPartnerAuthGuard)
   deleteProduct(@Param('id') id: string, @Request() req: any) {
     return this.partnersService.deleteProduct(req.user.sub, +id);
-  }
-
-  @Post('delivery-options')
-  @UseGuards(JwtPartnerAuthGuard)
-  createDeliveryOption(
-    @Body() createDeliveryOptionDto: CreateDeliveryOptionDto,
-    @Request() req: any,
-  ) {
-    return this.partnersService.createDeliveryOption(req.user.sub, {
-      name: createDeliveryOptionDto.name,
-      fee: createDeliveryOptionDto.fee,
-    });
-  }
-
-  @Get('delivery-options')
-  @UseGuards(JwtPartnerAuthGuard)
-  getMyDeliveryOptions(@Request() req: any) {
-    return this.partnersService.getMyDeliveryOptions(req.user.sub);
-  }
-
-  @Put('delivery-options/:id')
-  @UseGuards(JwtPartnerAuthGuard)
-  updateDeliveryOption(
-    @Param('id') id: string,
-    @Body() updateDeliveryOptionDto: UpdateDeliveryOptionDto,
-    @Request() req: any,
-  ) {
-    return this.partnersService.updateDeliveryOption(req.user.sub, +id, {
-      name: updateDeliveryOptionDto.name,
-      fee: updateDeliveryOptionDto.fee,
-    });
-  }
-
-  @Delete('delivery-options/:id')
-  @UseGuards(JwtPartnerAuthGuard)
-  deleteDeliveryOption(@Param('id') id: string, @Request() req: any) {
-    return this.partnersService.deleteDeliveryOption(req.user.sub, +id);
   }
 
   @Post('products-categories')

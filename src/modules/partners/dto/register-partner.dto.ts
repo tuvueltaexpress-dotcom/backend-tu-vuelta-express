@@ -6,6 +6,8 @@ import {
   IsArray,
   MinLength,
   MaxLength,
+  Min,
+  Max,
   Matches,
   IsOptional,
 } from 'class-validator';
@@ -79,12 +81,26 @@ export class CreateStoreDto {
   @Expose()
   @IsString()
   @IsOptional()
-  ha?: string;
+  ha?: string | null;
 
   @Expose()
   @IsString()
   @IsOptional()
-  hc?: string;
+  hc?: string | null;
+
+  @Expose()
+  @IsNumber({}, { message: 'La latitud debe ser un número' })
+  @Min(-90, { message: 'La latitud debe estar entre -90 y 90' })
+  @Max(90, { message: 'La latitud debe estar entre -90 y 90' })
+  @IsOptional()
+  latitude?: number;
+
+  @Expose()
+  @IsNumber({}, { message: 'La longitud debe ser un número' })
+  @Min(-180, { message: 'La longitud debe estar entre -180 y 180' })
+  @Max(180, { message: 'La longitud debe estar entre -180 y 180' })
+  @IsOptional()
+  longitude?: number;
 }
 
 export class UpdateStoreDto {
@@ -113,12 +129,26 @@ export class UpdateStoreDto {
   @Expose()
   @IsString()
   @IsOptional()
-  ha?: string;
+  ha?: string | null;
 
   @Expose()
   @IsString()
   @IsOptional()
-  hc?: string;
+  hc?: string | null;
+
+  @Expose()
+  @IsNumber({}, { message: 'La latitud debe ser un número' })
+  @Min(-90, { message: 'La latitud debe estar entre -90 y 90' })
+  @Max(90, { message: 'La latitud debe estar entre -90 y 90' })
+  @IsOptional()
+  latitude?: number;
+
+  @Expose()
+  @IsNumber({}, { message: 'La longitud debe ser un número' })
+  @Min(-180, { message: 'La longitud debe estar entre -180 y 180' })
+  @Max(180, { message: 'La longitud debe estar entre -180 y 180' })
+  @IsOptional()
+  longitude?: number;
 }
 
 export class CreateProductDto {
@@ -182,34 +212,6 @@ export class UpdateProductDto {
   @IsInt()
   @IsOptional()
   categoryId?: number;
-}
-
-export class CreateDeliveryOptionDto {
-  @Expose()
-  @IsString()
-  @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres' })
-  @MaxLength(100, { message: 'El nombre debe tener máximo 100 caracteres' })
-  name: string;
-
-  @Expose()
-  @Type(() => Number)
-  @IsNumber({}, { message: 'El costo de delivery debe ser un número' })
-  fee: number;
-}
-
-export class UpdateDeliveryOptionDto {
-  @Expose()
-  @IsString()
-  @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres' })
-  @MaxLength(100, { message: 'El nombre debe tener máximo 100 caracteres' })
-  @IsOptional()
-  name?: string;
-
-  @Expose()
-  @Type(() => Number)
-  @IsNumber({}, { message: 'El costo de delivery debe ser un número' })
-  @IsOptional()
-  fee?: number;
 }
 
 export class CreateProductCategoryDto {

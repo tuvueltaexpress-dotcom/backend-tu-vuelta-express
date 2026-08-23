@@ -1,6 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CloudinaryService } from '../../common/services/cloudinary.service';
+import {
+  locatedStoreWhere,
+  locatedStoreRelationWhere,
+} from '../../common/constants/located-store';
 
 function generateSlug(title: string): string {
   const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -81,8 +85,16 @@ export class ProductsService {
     return product;
   }
 
-  async findAll(storeId?: number, page: number = 1, limit: number = 20) {
-    const where = storeId ? { storeId } : {};
+  async findAll(
+    storeId?: number,
+    page: number = 1,
+    limit: number = 20,
+    includeUnlocated: boolean = false,
+  ) {
+    const where = {
+      ...(storeId ? { storeId } : {}),
+      ...(includeUnlocated ? {} : locatedStoreRelationWhere()),
+    };
     const skip = (page - 1) * limit;
 
     const [products, total] = await Promise.all([
@@ -127,8 +139,8 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    const product = await this.prisma.product.findUnique({
-      where: { id },
+    const product = await this.prisma.product.findFirst({
+      where: { id, ...locatedStoreRelationWhere() },
       include: {
         store: true,
         category: true,
@@ -143,8 +155,8 @@ export class ProductsService {
   }
 
   async findOneBySlug(slug: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { slug },
+    const product = await this.prisma.product.findFirst({
+      where: { slug, ...locatedStoreRelationWhere() },
       include: {
         store: true,
         category: true,
@@ -159,8 +171,8 @@ export class ProductsService {
   }
 
   async findByStore(storeId: number, page: number = 1, limit: number = 20) {
-    const existingStore = await this.prisma.stores.findUnique({
-      where: { id: storeId },
+    const existingStore = await this.prisma.stores.findFirst({
+      where: { id: storeId, ...locatedStoreWhere() },
     });
 
     if (!existingStore) {

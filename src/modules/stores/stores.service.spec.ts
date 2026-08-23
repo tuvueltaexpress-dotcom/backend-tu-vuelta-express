@@ -11,6 +11,7 @@ describe('StoresService', () => {
   const mockPrisma = {
     stores: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
       findMany: jest.fn(),
       update: jest.fn(),
@@ -103,8 +104,18 @@ describe('StoresService', () => {
   describe('findAll', () => {
     it('debería obtener todas las tiendas', async () => {
       const mockStores = [
-        { id: 1, name: 'Tienda 1', category: { id: 1, name: 'Restaurantes' } },
-        { id: 2, name: 'Tienda 2', category: { id: 1, name: 'Restaurantes' } },
+        {
+          id: 1,
+          name: 'Tienda 1',
+          slug: 'tienda-1',
+          category: { id: 1, name: 'Restaurantes' },
+        },
+        {
+          id: 2,
+          name: 'Tienda 2',
+          slug: 'tienda-2',
+          category: { id: 1, name: 'Restaurantes' },
+        },
       ];
       mockPrisma.stores.findMany.mockResolvedValue(mockStores);
       mockPrisma.stores.count.mockResolvedValue(2);
@@ -113,6 +124,29 @@ describe('StoresService', () => {
 
       expect(result.data).toEqual(mockStores);
       expect(result.pagination.total).toBe(2);
+      expect(mockPrisma.stores.update).not.toHaveBeenCalled();
+    });
+
+    it('debería generar el slug de las tiendas que no lo tienen', async () => {
+      const storeSinSlug = {
+        id: 3,
+        name: 'Tienda Sin Slug',
+        slug: null,
+        category: { id: 1, name: 'Restaurantes' },
+      };
+      mockPrisma.stores.findMany.mockResolvedValue([storeSinSlug]);
+      mockPrisma.stores.count.mockResolvedValue(1);
+      // generateUniqueSlug consulta si el slug ya existe: null = disponible
+      mockPrisma.stores.findUnique.mockResolvedValue(null);
+      mockPrisma.stores.update.mockImplementation(({ data }) =>
+        Promise.resolve({ ...storeSinSlug, slug: data.slug }),
+      );
+
+      const result = await service.findAll();
+
+      expect(mockPrisma.stores.update).toHaveBeenCalledTimes(1);
+      expect(result.data[0].slug).toEqual(expect.any(String));
+      expect(result.data[0].slug).not.toBeNull();
     });
   });
 
@@ -123,9 +157,8 @@ describe('StoresService', () => {
         name: 'Mi Tienda',
         category: { id: 1, name: 'Restaurantes' },
         products: [],
-        deliveryOptions: [],
       };
-      mockPrisma.stores.findUnique.mockResolvedValue(mockStore);
+      mockPrisma.stores.findFirst.mockResolvedValue(mockStore);
 
       const result = await service.findOne(1);
 
@@ -133,7 +166,7 @@ describe('StoresService', () => {
     });
 
     it('debería lanzar error si no encuentra la tienda', async () => {
-      mockPrisma.stores.findUnique.mockResolvedValue(null);
+      mockPrisma.stores.findFirst.mockResolvedValue(null);
 
       await expect(service.findOne(999)).rejects.toThrow(NotFoundException);
     });
@@ -164,6 +197,54 @@ describe('StoresService', () => {
       const result = await service.update(1, { name: 'Tienda Nueva' });
 
       expect(result.name).toBe('Tienda Nueva');
+    });
+
+    it('debería borrar los horarios cuando llegan como null', async () => {
+      mockPrisma.stores.findUnique.mockResolvedValue({
+        id: 1,
+        name: 'Mi Tienda',
+        image: 'https://cloudinary.com/image.jpg',
+        coverImage: null,
+        categoryId: 1,
+        ha: '08:00',
+        hc: '20:00',
+      });
+      mockPrisma.stores.update.mockResolvedValue({
+        id: 1,
+        name: 'Mi Tienda',
+        ha: null,
+        hc: null,
+        category: { id: 1, name: 'Restaurantes' },
+      });
+
+      await service.update(1, { ha: null, hc: null });
+
+      expect(mockPrisma.stores.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ ha: null, hc: null }),
+        }),
+      );
+    });
+
+    it('no debería tocar los horarios cuando no vienen en el payload', async () => {
+      mockPrisma.stores.findUnique.mockResolvedValue({
+        id: 1,
+        name: 'Mi Tienda',
+        image: 'https://cloudinary.com/image.jpg',
+        coverImage: null,
+        categoryId: 1,
+        ha: '08:00',
+        hc: '20:00',
+      });
+      mockPrisma.stores.update.mockResolvedValue({ id: 1, name: 'Otro' });
+
+      await service.update(1, { name: 'Otro' });
+
+      expect(mockPrisma.stores.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ ha: undefined, hc: undefined }),
+        }),
+      );
     });
 
     it('debería lanzar error si la tienda no existe', async () => {
